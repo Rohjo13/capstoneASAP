@@ -20,7 +20,7 @@ public class LsMainActivity extends AppCompatActivity {
     ScheduleRepository scheduleRepository;
     ScheduleService scheduleService;
 
-    
+
     // Schedule DI 주입
     public LsMainActivity() {
         scheduleRepository = new MemoryScheduleRepository();
