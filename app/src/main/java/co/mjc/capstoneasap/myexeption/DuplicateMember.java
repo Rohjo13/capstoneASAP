@@ -1,8 +1,8 @@
 package co.mjc.capstoneasap.myexeption;
 
-public class DuplicateMember extends Exception{
+public class DuplicateMember extends RuntimeException{
 
-    public DuplicateMember(Exception e) {
+    public DuplicateMember(RuntimeException e) {
         super(e);
     }
 }
