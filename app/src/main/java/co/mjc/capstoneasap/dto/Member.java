@@ -4,16 +4,16 @@ package co.mjc.capstoneasap.dto;
 // Member Information
 public class Member {
 
-    private String memID;
+    private String memId;
     private String memPw;
     private String memMail;
 
-    public String getMemID() {
-        return memID;
+    public String getMemId() {
+        return memId;
     }
 
-    public void setMemID(String memID) {
-        this.memID = memID;
+    public void setMemId(String memId) {
+        this.memId = memId;
     }
 
     public String getMemPw() {

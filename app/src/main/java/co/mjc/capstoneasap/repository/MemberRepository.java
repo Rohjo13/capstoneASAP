@@ -9,6 +9,4 @@ import co.mjc.capstoneasap.dto.Member;
 public interface MemberRepository {
     void save(Member member);
     Optional<Member> getId(String id);
-    void delete(String id);
-
 }
