@@ -8,10 +8,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import java.util.Optional;
 
-import co.mjc.capstoneasap.R;
-import co.mjc.capstoneasap.domain.Member;
+import co.mjc.capstoneasap.dto.Member;
 import co.mjc.capstoneasap.repository.MemberRepository;
-import co.mjc.capstoneasap.repository.MemoryMemberRepository;
 
 
 // 모든 Service 객체

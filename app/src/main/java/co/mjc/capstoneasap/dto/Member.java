@@ -1,4 +1,4 @@
-package co.mjc.capstoneasap.domain;
+package co.mjc.capstoneasap.dto;
 
 
 // Member Information

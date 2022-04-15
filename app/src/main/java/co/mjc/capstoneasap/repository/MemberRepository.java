@@ -2,7 +2,7 @@ package co.mjc.capstoneasap.repository;
 
 import java.util.Optional;
 
-import co.mjc.capstoneasap.domain.Member;
+import co.mjc.capstoneasap.dto.Member;
 
 
 // Interface Repository

@@ -8,7 +8,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
-import co.mjc.capstoneasap.domain.Member;
+import co.mjc.capstoneasap.dto.Member;
 
 public class MemoryMemberRepository implements MemberRepository {
 

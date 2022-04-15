@@ -23,7 +23,7 @@
             android:id="@+id/mainPageStrView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Domain Service"
+            android:text="Login Service"
             android:textAlignment="center"
             android:textSize="20sp"
             android:textStyle="bold" />
