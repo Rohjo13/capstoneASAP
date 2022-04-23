@@ -1,12 +1,27 @@
 package co.mjc.capstoneasap.dto;
 
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
+import java.io.Serializable;
+
 // Member Information
-public class Member {
+public class Member implements Serializable {
 
     private String memId;
     private String memPw;
     private String memMail;
+
+    Schedule schedule;
+
+    public Schedule getSchedule() {
+        return schedule;
+    }
+
+    public void setSchedule(Schedule schedule) {
+        this.schedule = schedule;
+    }
 
     public String getMemId() {
         return memId;
@@ -31,4 +46,5 @@ public class Member {
     public void setMemMail(String memMail) {
         this.memMail = memMail;
     }
+
 }

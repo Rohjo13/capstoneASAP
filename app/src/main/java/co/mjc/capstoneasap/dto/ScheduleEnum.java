@@ -4,7 +4,7 @@ package co.mjc.capstoneasap.dto;
 // 자바 캘린더에는 요일이 월(1)~일(7)로 되어있음
 public enum ScheduleEnum {
     // 그에 맞게끔 Enum 설정
-    MON(1), TUE(2), WED(3),THU(4), FRI(5);
+    SUNDAY(1),MONDAY(2), TUESDAY(3), WEDNESDAY(4),THURSDAY(5), FRIDAY(6), SATURDAY(7);
 
     private final int value;
 
@@ -17,5 +17,4 @@ public enum ScheduleEnum {
     public int intValue() {
         return value;
     }
-
 }

@@ -37,16 +37,23 @@ public class MemberService extends AppCompatActivity {
         return false;
     }
 
-    // 로그인이 유지가 되있는 상태냐? 이것을 판단해여 로직 구현해야한다.
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    public Member getById(EditText id) {
+        String memId = id.getText().toString();
+        return memberRepository.getId(memId).get();
+    }
+
+
+    @Deprecated
     public Boolean logout() {
         return false;
     }
 
+    @Deprecated
     public void save(Member member) {
         // 여기서부터 다시 수정 중복 여부 검사
         memberRepository.getId(member.getMemId());
         memberRepository.save(member);
     }
-
 
 }

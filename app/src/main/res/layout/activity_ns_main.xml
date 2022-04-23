@@ -9,10 +9,10 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginStart="50dp"
+        android:layout_marginStart="40dp"
         android:layout_marginTop="200dp"
-        android:layout_marginEnd="50dp"
-        android:layout_marginBottom="200dp"
+        android:layout_marginEnd="40dp"
+        android:layout_marginBottom="250dp"
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -38,8 +38,9 @@
 
                 <TextView
                     android:id="@+id/idView"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_weight="0.1"
                     android:text="ID"
                     android:textAlignment="center"
                     android:textAllCaps="false"
@@ -48,8 +49,9 @@
 
                 <EditText
                     android:id="@+id/edtId"
-                    android:layout_width="289dp"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_weight="0.9"
                     android:ems="10"
                     android:hint="input your ID"
                     android:inputType="textPersonName"
@@ -63,16 +65,18 @@
 
                 <TextView
                     android:id="@+id/pwdView"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_weight="0.1"
                     android:text="Pwd"
                     android:textSize="15sp"
                     android:textStyle="bold" />
 
                 <EditText
                     android:id="@+id/edtPwd"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_weight="0.9"
                     android:ems="10"
                     android:hint="input your Password"
                     android:inputType="textPassword"
@@ -82,17 +86,23 @@
 
         </TableLayout>
 
-        <Button
-            android:id="@+id/btn_login"
-            android:layout_width="wrap_content"
-            android:layout_height="48dp"
-            android:layout_gravity="center"
-            android:background="#000000"
-            android:backgroundTint="@color/black"
-            android:text="Login"
-            android:textAlignment="center"
-            android:textColor="#FFFFFF"
-            android:textStyle="bold" />
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center">
+
+            <Button
+                android:id="@+id/btn_login"
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:layout_gravity="center"
+                android:background="#000000"
+                android:backgroundTint="@color/black"
+                android:text="Login"
+                android:textAlignment="center"
+                android:textColor="#FFFFFF"
+                android:textStyle="bold" />
+        </TableRow>
 
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

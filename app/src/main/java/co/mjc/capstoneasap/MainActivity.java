@@ -7,10 +7,14 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.view.Menu;
 import android.widget.Button;
 import android.widget.EditText;
 
+import java.util.Optional;
+
+import co.mjc.capstoneasap.dto.Member;
 import co.mjc.capstoneasap.repository.MemberRepository;
 import co.mjc.capstoneasap.repository.MemoryMemberRepository;
 import co.mjc.capstoneasap.repository.MemoryScheduleRepository;
@@ -31,6 +35,7 @@ public class MainActivity extends AppCompatActivity {
     //
     MemberRepository memberRepository;
     MemberService memberService;
+    LsMainActivity lsMainActivity;
 
     // 생성자로 DI 주입 Bean 역할
     public MainActivity() {
@@ -52,18 +57,26 @@ public class MainActivity extends AppCompatActivity {
         // ID , PWD
         edtId = findViewById(R.id.edtId);
         edtPwd = findViewById(R.id.edtPwd);
+
+
+        memberService.login(edtId, edtPwd);
+
         // Login Logic
         btn_login.setOnClickListener(
                 // 람다식
                 view -> {
-            if(memberService.login(edtId,edtPwd)) {
+            if(memberService.login(edtId, edtPwd)) {
+                Member member = memberService.getById(edtId);
                 // 로그인 성공 시, 화면 전환, 화면 전환하는 클래스는 Intent
-                // 새로운 Intent를 생성하는데, LsMainActivity로 인스턴스 생성
+                // 새로운 Intent 를 생성하는데, LsMainActivity 로 인스턴스 생성
                 Intent intent = new Intent(getApplicationContext(), LsMainActivity.class);
+
+                // 로그인 정보 넘겨주기
+                intent.putExtra(member.getMemId(), member);
+                System.out.println(member+ "이게 뭐임?");
                 // 인텐트에서 생성한 LsMainActivity 로 전환한다.
                 startActivity(intent);
                 // 로그인 데이터는 옮기지 않음, 아직 구현하지 않았음
-
             }
             // 비밀번호 틀림 || 아이디 잘못 입력
             else {
