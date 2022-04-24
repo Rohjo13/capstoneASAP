@@ -65,7 +65,6 @@ public class MainActivity extends AppCompatActivity {
             Boolean loginAccess = memberService.login(edtId, edtPwd);
             if (loginAccess) {
                 Member member = memberService.getById(edtId);
-                System.out.println(member.getMemId() + "는 찍힌다.");
                 // 로그인 성공 시, 화면 전환, 화면 전환하는 클래스는 Intent
                 // 새로운 Intent 를 생성하는데, LsMainActivity 로 인스턴스 생성
                 Intent intent = new Intent(this, LsMainActivity.class);
@@ -74,7 +73,6 @@ public class MainActivity extends AppCompatActivity {
                 intent.putExtra("loginAccess", member);
                 // 인텐트에서 생성한 LsMainActivity 로 전환한다.
                 startActivity(intent);
-                // 로그인 데이터는 옮기지 않음, 아직 구현하지 않았음
             }
             // 비밀번호 틀림 || 아이디 잘못 입력
             else {

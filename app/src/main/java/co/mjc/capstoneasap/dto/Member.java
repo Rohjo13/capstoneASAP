@@ -7,9 +7,9 @@ import android.os.Parcelable;
 import java.io.Serializable;
 
 // Member Information
+// 직렬화 해서 객체 넘길 것이기 때문에 Serializable 구현
 public class Member implements Serializable {
 
-    private static final long serialVersionUID = 1L;
     private String memId;
     private String memPw;
     private String memMail;

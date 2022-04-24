@@ -25,15 +25,14 @@ public class ScheduleService {
         this.scheduleRepository = scheduleRepository;
     }
 
-
-    // 스케쥴 저장
+    // 스케쥴 저장 현재는 안쓴다.
     @Deprecated
     public void save(Schedule schedule) {
         scheduleRepository.save(schedule);
     }
 
 
-    // 스케쥴 꺼내옴(임시)
+    // 스케쥴 get 현재는 안쓴다.
     @Deprecated
     @RequiresApi(api = Build.VERSION_CODES.N)
     public Optional<Schedule> getScheduleOne(String lecName) {
@@ -44,6 +43,7 @@ public class ScheduleService {
 
 
     // 날짜 체크
+    // 당장은 오늘이 무슨 요일인지만 체크하고, 이 부분에 추가 기능 넣어서 요일별로 시간표 뜨게 할 예정
     public String dateCheck() {
         Calendar calendar = Calendar.getInstance();
         int dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);

@@ -12,6 +12,8 @@ import java.util.ArrayList;
 import co.mjc.capstoneasap.R;
 import co.mjc.capstoneasap.dto.Schedule;
 
+
+// Schedule Adapter
 public class ScheduleAdapter extends BaseAdapter {
 
     Context mContext = null;
@@ -24,6 +26,7 @@ public class ScheduleAdapter extends BaseAdapter {
         mLayoutInflater = LayoutInflater.from(mContext);
     }
 
+    // Schedule 몇 개 있는지? count
     @Override
     public int getCount() {
         return schedules.size();
@@ -34,11 +37,13 @@ public class ScheduleAdapter extends BaseAdapter {
         return i;
     }
 
+    // 객체 get
     @Override
     public Schedule getItem(int i) {
         return schedules.get(i);
     }
 
+    // 시간표가 추가되면 Text Set
     @Override
     public View getView(int i, View notView, ViewGroup viewGroup) {
         View view = mLayoutInflater.inflate(R.layout.schedulelistview, null);

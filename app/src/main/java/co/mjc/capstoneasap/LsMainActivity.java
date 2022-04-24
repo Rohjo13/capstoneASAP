@@ -44,7 +44,7 @@ import co.mjc.capstoneasap.service.ScheduleService;
 
 public class LsMainActivity extends AppCompatActivity {
 
-
+    // 카메라 기능에 사용할 것
     static final int REQUEST_IMAGE_CAPTURE = 1;
 
     TextView dayOfWeek;
@@ -62,7 +62,7 @@ public class LsMainActivity extends AppCompatActivity {
     MemberService memberService;
     Member loginMember;
 
-    // Schedule DI(?) 주입
+    // 생성자 주입
     public LsMainActivity() {
         scheduleRepository = new MemoryScheduleRepository();
         scheduleService = new ScheduleService(scheduleRepository);
@@ -76,10 +76,12 @@ public class LsMainActivity extends AppCompatActivity {
     // 중요한 것 객체를 찾아오기 전 부터 자꾸 객체에 접근하지 말자. 오류 많이 난다.
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_ls_main);
+
+        // 로그인 성공시 loginAccess 로 멤버 객체 받아옴
         Intent intent = getIntent();
-        // 임시
         loginMember = (Member) intent.getSerializableExtra("loginAccess");
 
         // 오늘 날짜
@@ -87,7 +89,7 @@ public class LsMainActivity extends AppCompatActivity {
         dayOfWeek = findViewById(R.id.dayofweek);
         dayOfWeek.setText(scheduleService.dateCheck());
 
-        // 회원님 아이디
+        // 회원님 아이디 (hashMap에 default 로 들어가 있는 값이 id : 123 pwd : 123)
         loginData.setText("Hi! : " + loginMember.getMemId());
 
         // 리스트 뷰
@@ -96,6 +98,8 @@ public class LsMainActivity extends AppCompatActivity {
 
         // 스케쥴 동적 리스트 뷰
         listView.setAdapter(scheduleAdapter);
+
+        // 리스트 뷰를 눌렀을 때 popUp menu On -> 익스펜더블로 변경 예정
         listView.setOnItemClickListener((adapterView, view, i, l) -> {
             PopupMenu popup = new PopupMenu(getApplicationContext(), view);
             popup.getMenuInflater().inflate(R.menu.schedule_function, popup.getMenu());
@@ -120,13 +124,16 @@ public class LsMainActivity extends AppCompatActivity {
     public void takeAPicture() {
         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
-            // 수정 부분
+            // 수정 필요 부분
             startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
         }
     }
 
+
+    // Schedule 을 세팅하면 List 에 add
     public void settingSchedule(Schedule schedule) {
         scheduleArrayList.add(schedule);
+        // 변경 사항을 Adapter 에 알림
         scheduleAdapter.notifyDataSetChanged();
     }
 
@@ -160,6 +167,7 @@ public class LsMainActivity extends AppCompatActivity {
     }
 
 
+    // create Schedule 을 위한 Dialog 생성
     public void setCreateSchedule() {
 
         // schedule을 만드는 Dialog 생성
@@ -182,6 +190,7 @@ public class LsMainActivity extends AppCompatActivity {
         selectDate.setOnClickListener(view -> {
             PopupMenu popup = new PopupMenu(this, view);
             popup.getMenuInflater().inflate(R.menu.datepopup_schedule, popup.getMenu());
+            // 요일을 선택하면 그에 맞게 Date 는 select 됨.
             popup.setOnMenuItemClickListener(menuItem -> {
                 switch (menuItem.getItemId()) {
                     case R.id.dateMon:
@@ -217,6 +226,7 @@ public class LsMainActivity extends AppCompatActivity {
                 }
                 return true;
             });
+            // show
             popup.show();
         });
 
@@ -230,7 +240,9 @@ public class LsMainActivity extends AppCompatActivity {
         // 확인 버튼인데, 데이터가 다 입력되어야만 추가 완료
         addSchedule.setOnClickListener(view1 -> {
             schedule.setLecName(createNameSchedule.getText().toString());
-                if (createNameSchedule.getText().toString().equals("")) {
+            // 해당 강의가 요일이 선택되지 않으면서, 이름이 없을 때
+                if (createNameSchedule.getText().toString().equals("") && selectDate.getText().toString().equals("요일 선택")) {
+                    // 간이 메세지 전달
                     Toast.makeText(getApplicationContext(),
                             "전부 입력해주세요.", Toast.LENGTH_LONG).show();
                 } else {
@@ -239,6 +251,7 @@ public class LsMainActivity extends AppCompatActivity {
                     settingSchedule(schedule);
                     System.out.println("강의 이름 " + schedule.getLecName());
                     System.out.println("강이 날짜" + schedule.getDayOTW().name());
+                    // dismiss
                     dialog.dismiss();
                 }
         });
@@ -274,6 +287,7 @@ public class LsMainActivity extends AppCompatActivity {
         Intent intent = new Intent(this, MainActivity.class);
         // 로그인한 멤버는 이제 없음
         loginMember = null;
+        // 다시 로그인 화면으로 변환
         startActivity(intent);
     }
 }

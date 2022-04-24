@@ -12,11 +12,9 @@ import co.mjc.capstoneasap.dto.Member;
 import co.mjc.capstoneasap.repository.MemberRepository;
 
 
-// 모든 Service 객체
+// Service 객체
 public class MemberService extends AppCompatActivity {
 
-//    EditText edtId;
-//    EditText edtPwd;
 
     MemberRepository memberRepository;
 
@@ -39,18 +37,21 @@ public class MemberService extends AppCompatActivity {
         return false;
     }
 
+
+    // 로그인에서 true 값을 받으면 Id를 받아서 LsMain에 뿌려준다.
     @RequiresApi(api = Build.VERSION_CODES.N)
     public Member getById(EditText id) {
         String memId = id.getText().toString();
         return memberRepository.getId(memId).get();
     }
 
-
+    // 현재 안씀
     @Deprecated
     public Boolean logout() {
         return false;
     }
 
+    // 현재 안씀
     @Deprecated
     public void save(Member member) {
         // 여기서부터 다시 수정 중복 여부 검사
