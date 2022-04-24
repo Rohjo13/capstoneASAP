@@ -18,9 +18,9 @@
 
             <TextView
                 android:id="@+id/dayofweek"
-                android:layout_width="195dp"
-                android:layout_height="45dp"
-                android:layout_weight="0.4"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.5"
                 android:text="null"
                 android:textSize="32sp"
                 android:textStyle="bold" />
@@ -28,18 +28,17 @@
             <TextView
                 android:id="@+id/loginData"
                 android:layout_width="match_parent"
-                android:layout_height="45dp"
-                android:layout_weight="0.6"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.5"
                 android:text="nullname"
                 android:textSize="32sp"
                 android:textStyle="bold" />
         </TableRow>
 
         <ListView
+            android:id="@+id/lsScheduleListView"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-        </ListView>
+            android:layout_height="match_parent" />
 
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -54,26 +54,24 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_ns_main);
         // login Button
         btn_login = findViewById(R.id.btn_login);
-        // ID , PWD
-        edtId = findViewById(R.id.edtId);
-        edtPwd = findViewById(R.id.edtPwd);
-
-
-        memberService.login(edtId, edtPwd);
 
         // Login Logic
         btn_login.setOnClickListener(
-                // 람다식
-                view -> {
-            if(memberService.login(edtId, edtPwd)) {
+        // 람다식
+        view -> {
+            // ID , PWD
+            edtId = findViewById(R.id.edtId);
+            edtPwd = findViewById(R.id.edtPwd);
+            Boolean loginAccess = memberService.login(edtId, edtPwd);
+            if (loginAccess) {
                 Member member = memberService.getById(edtId);
+                System.out.println(member.getMemId() + "는 찍힌다.");
                 // 로그인 성공 시, 화면 전환, 화면 전환하는 클래스는 Intent
                 // 새로운 Intent 를 생성하는데, LsMainActivity 로 인스턴스 생성
-                Intent intent = new Intent(getApplicationContext(), LsMainActivity.class);
+                Intent intent = new Intent(this, LsMainActivity.class);
 
                 // 로그인 정보 넘겨주기
-                intent.putExtra(member.getMemId(), member);
-                System.out.println(member+ "이게 뭐임?");
+                intent.putExtra("loginAccess", member);
                 // 인텐트에서 생성한 LsMainActivity 로 전환한다.
                 startActivity(intent);
                 // 로그인 데이터는 옮기지 않음, 아직 구현하지 않았음

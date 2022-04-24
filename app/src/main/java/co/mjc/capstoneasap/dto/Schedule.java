@@ -9,7 +9,7 @@ public class Schedule {
     private ScheduleEnum dayOTW;
 
     public String getLecName() {
-        return lecName;
+        return this.lecName;
     }
 
     public void setLecName(String lecName) {

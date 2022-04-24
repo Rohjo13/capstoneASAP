@@ -31,6 +31,8 @@ public class MemberService extends AppCompatActivity {
         String id = edtId.getText().toString();
         String pwd = edtPwd.getText().toString();
         Optional<Member> member = memberRepository.getId(id);
+        System.out.println("아이디 : " + id );
+        System.out.println("패스워드 : " + pwd);
         if (member.isPresent()
                 && member.get().getMemId().equals(id) && member.get().getMemPw().equals(pwd))
             return true;
@@ -52,7 +54,6 @@ public class MemberService extends AppCompatActivity {
     @Deprecated
     public void save(Member member) {
         // 여기서부터 다시 수정 중복 여부 검사
-        memberRepository.getId(member.getMemId());
         memberRepository.save(member);
     }
 

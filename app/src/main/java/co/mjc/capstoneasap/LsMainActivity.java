@@ -8,24 +8,30 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
+import android.media.MediaDataSource;
 import android.os.Build;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.PopupMenu;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import java.time.DayOfWeek;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Optional;
 
+import co.mjc.capstoneasap.adapter.ScheduleAdapter;
 import co.mjc.capstoneasap.dto.Member;
 import co.mjc.capstoneasap.dto.Schedule;
 import co.mjc.capstoneasap.dto.ScheduleEnum;
@@ -38,10 +44,16 @@ import co.mjc.capstoneasap.service.ScheduleService;
 
 public class LsMainActivity extends AppCompatActivity {
 
+
+    static final int REQUEST_IMAGE_CAPTURE = 1;
+
     TextView dayOfWeek;
     TextView selectDate;
     TextView loginData;
 
+    ArrayList<Schedule> scheduleArrayList;
+    ScheduleAdapter scheduleAdapter;
+    ListView listView;
 
     // 로그인 한 회원을 알아야 한다.
     ScheduleRepository scheduleRepository;
@@ -56,22 +68,68 @@ public class LsMainActivity extends AppCompatActivity {
         scheduleService = new ScheduleService(scheduleRepository);
         memberRepository = new MemoryMemberRepository();
         memberService = new MemberService(memberRepository);
-        Intent intent = getIntent();
-        loginMember = (Member)intent.getSerializableExtra("123");
+
+        scheduleArrayList = new ArrayList<>();
     }
 
+
+    // 중요한 것 객체를 찾아오기 전 부터 자꾸 객체에 접근하지 말자. 오류 많이 난다.
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_ls_main);
+        Intent intent = getIntent();
+        // 임시
+        loginMember = (Member) intent.getSerializableExtra("loginAccess");
+
         // 오늘 날짜
         loginData = findViewById(R.id.loginData);
-
-        // 회원님 아이디
-        loginData.setText("안녕하세요 "+ loginMember.getMemId() + "님!");
         dayOfWeek = findViewById(R.id.dayofweek);
         dayOfWeek.setText(scheduleService.dateCheck());
+
+        // 회원님 아이디
+        loginData.setText("Hi! : " + loginMember.getMemId());
+
+        // 리스트 뷰
+        listView = findViewById(R.id.lsScheduleListView);
+        scheduleAdapter = new ScheduleAdapter(this, scheduleArrayList);
+
+        // 스케쥴 동적 리스트 뷰
+        listView.setAdapter(scheduleAdapter);
+        listView.setOnItemClickListener((adapterView, view, i, l) -> {
+            PopupMenu popup = new PopupMenu(getApplicationContext(), view);
+            popup.getMenuInflater().inflate(R.menu.schedule_function, popup.getMenu());
+            popup.setOnMenuItemClickListener(menuItem -> {
+                switch (menuItem.getItemId()) {
+                    case R.id.takeAPicture:
+                        takeAPicture();
+                        break;
+                    case R.id.photoView:
+                        break;
+                    default:
+                        break;
+                }
+                return true;
+            });
+            popup.show();
+        });
+
     }
+
+    // 사진 찍는 메서드
+    public void takeAPicture() {
+        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
+            // 수정 부분
+            startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
+        }
+    }
+
+    public void settingSchedule(Schedule schedule) {
+        scheduleArrayList.add(schedule);
+        scheduleAdapter.notifyDataSetChanged();
+    }
+
 
     // 메뉴바 생성 : 추가, 수정, 삭제, 로그아웃
     @Override
@@ -146,6 +204,14 @@ public class LsMainActivity extends AppCompatActivity {
                         schedule.setDayOTW(ScheduleEnum.FRIDAY);
                         selectDate.setText("금요일");
                         break;
+                    case R.id.dateSAT:
+                        schedule.setDayOTW(ScheduleEnum.SATURDAY);
+                        selectDate.setText("토요일");
+                        break;
+                    case R.id.dateSUN:
+                        schedule.setDayOTW(ScheduleEnum.SUNDAY);
+                        selectDate.setText("일요일");
+                        break;
                     default:
                         break;
                 }
@@ -155,21 +221,26 @@ public class LsMainActivity extends AppCompatActivity {
         });
 
         // 강의 이름 설정 : ex) 자바캡스톤디자인
-        schedule.setLecName(createNameSchedule.getText().toString());
+
 
         // 회원의 데이터에 schedule setting
         loginMember.setSchedule(schedule);
+        // ListView 에 올라갈 schedule
 
         // 확인 버튼인데, 데이터가 다 입력되어야만 추가 완료
         addSchedule.setOnClickListener(view1 -> {
-            if (createNameSchedule.getText().toString().equals("")) {
-                Toast.makeText(getApplicationContext(),
-                        "전부 입력해주세요.", Toast.LENGTH_LONG).show();
-            } else {
-            Toast.makeText(getApplicationContext(),
-                    "강의가 추가 완료되었습니다.", Toast.LENGTH_LONG).show();
-            dialog.dismiss();
-            }
+            schedule.setLecName(createNameSchedule.getText().toString());
+                if (createNameSchedule.getText().toString().equals("")) {
+                    Toast.makeText(getApplicationContext(),
+                            "전부 입력해주세요.", Toast.LENGTH_LONG).show();
+                } else {
+                    Toast.makeText(getApplicationContext(),
+                            "강의가 추가 완료되었습니다.", Toast.LENGTH_LONG).show();
+                    settingSchedule(schedule);
+                    System.out.println("강의 이름 " + schedule.getLecName());
+                    System.out.println("강이 날짜" + schedule.getDayOTW().name());
+                    dialog.dismiss();
+                }
         });
 
         // 취소 버튼
@@ -200,7 +271,7 @@ public class LsMainActivity extends AppCompatActivity {
 
     // 초기화면 로그아웃
     public void logout() {
-        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+        Intent intent = new Intent(this, MainActivity.class);
         // 로그인한 멤버는 이제 없음
         loginMember = null;
         startActivity(intent);

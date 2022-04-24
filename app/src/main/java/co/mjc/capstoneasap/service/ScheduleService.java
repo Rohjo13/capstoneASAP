@@ -17,6 +17,7 @@ import co.mjc.capstoneasap.dto.Schedule;
 import co.mjc.capstoneasap.dto.ScheduleEnum;
 import co.mjc.capstoneasap.repository.ScheduleRepository;
 
+
 public class ScheduleService {
     ScheduleRepository scheduleRepository;
 
@@ -26,6 +27,7 @@ public class ScheduleService {
 
 
     // 스케쥴 저장
+    @Deprecated
     public void save(Schedule schedule) {
         scheduleRepository.save(schedule);
     }
@@ -41,13 +43,16 @@ public class ScheduleService {
     }
 
 
-    // 오늘 날짜 계산
+    // 날짜 체크
     public String dateCheck() {
         Calendar calendar = Calendar.getInstance();
         int dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
         System.out.println(dayOfWeek);
         String returnName;
         switch (dayOfWeek) {
+            case 1:
+                returnName = ScheduleEnum.SUNDAY.name();
+                break;
             case 2:
                 returnName = ScheduleEnum.MONDAY.name();
                 break;
@@ -63,8 +68,11 @@ public class ScheduleService {
             case 6:
                 returnName = ScheduleEnum.FRIDAY.name();
                 break;
+            case 7:
+                returnName = ScheduleEnum.SATURDAY.name();
+                break;
             default:
-                returnName = "쉬는 날";
+                returnName = "NULL";
                 break;
         }
         return returnName;

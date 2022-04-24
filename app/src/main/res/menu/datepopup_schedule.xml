@@ -8,25 +8,25 @@
     <item
         android:id="@+id/dateTUE"
         android:icon="@android:drawable/ic_menu_search"
-        android:title="화요일">
-    </item>
-
+        android:title="화요일"></item>
     <item
         android:id="@+id/dateWED"
         android:icon="@android:drawable/ic_menu_search"
-        android:title="수요일">
-    </item>
-
+        android:title="수요일"></item>
     <item
         android:id="@+id/dateTHU"
         android:icon="@android:drawable/ic_menu_search"
-        android:title="목요일">
-    </item>
-
+        android:title="목요일"></item>
     <item
         android:id="@+id/dateFRI"
         android:icon="@android:drawable/ic_menu_search"
-        android:title="금요일">
-    </item>
-
+        android:title="금요일"></item>
+    <item
+        android:id="@+id/dateSAT"
+        android:icon="@android:drawable/ic_menu_search"
+        android:title="토요일"></item>
+    <item
+        android:id="@+id/dateSUN"
+        android:icon="@android:drawable/ic_menu_search"
+        android:title="일요일"></item>
 </menu>
