@@ -9,7 +9,8 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        tools:ignore="MissingConstraints">
 
         <TableRow
             android:layout_width="match_parent"
@@ -19,6 +20,7 @@
                 android:id="@+id/dayofweek"
                 android:layout_width="195dp"
                 android:layout_height="45dp"
+                android:layout_weight="0.4"
                 android:text="null"
                 android:textSize="32sp"
                 android:textStyle="bold" />
@@ -27,30 +29,17 @@
                 android:id="@+id/loginData"
                 android:layout_width="match_parent"
                 android:layout_height="45dp"
+                android:layout_weight="0.6"
                 android:text="nullname"
                 android:textSize="32sp"
                 android:textStyle="bold" />
         </TableRow>
 
-        <TableLayout
+        <ListView
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="wrap_content">
 
-            <TableRow
-                android:layout_width="match_parent"
-                android:layout_height="match_parent" />
+        </ListView>
 
-            <TableRow
-                android:layout_width="match_parent"
-                android:layout_height="match_parent" />
-
-            <TableRow
-                android:layout_width="match_parent"
-                android:layout_height="match_parent" />
-
-            <TableRow
-                android:layout_width="match_parent"
-                android:layout_height="match_parent" />
-        </TableLayout>
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

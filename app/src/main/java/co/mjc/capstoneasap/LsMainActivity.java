@@ -1,12 +1,14 @@
 package co.mjc.capstoneasap;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -22,6 +24,7 @@ import android.widget.Toast;
 import java.time.DayOfWeek;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Optional;
 
 import co.mjc.capstoneasap.dto.Member;
 import co.mjc.capstoneasap.dto.Schedule;
@@ -38,53 +41,57 @@ public class LsMainActivity extends AppCompatActivity {
     TextView dayOfWeek;
     TextView selectDate;
     TextView loginData;
+
+
     // 로그인 한 회원을 알아야 한다.
     ScheduleRepository scheduleRepository;
     ScheduleService scheduleService;
     MemberRepository memberRepository;
     MemberService memberService;
+    Member loginMember;
 
-    // Schedule DI 주입
+    // Schedule DI(?) 주입
     public LsMainActivity() {
         scheduleRepository = new MemoryScheduleRepository();
         scheduleService = new ScheduleService(scheduleRepository);
         memberRepository = new MemoryMemberRepository();
         memberService = new MemberService(memberRepository);
+        Intent intent = getIntent();
+        loginMember = (Member)intent.getSerializableExtra("123");
     }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        Intent intent = getIntent();
-        Member loginMember = (Member)intent.getSerializableExtra("123");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_ls_main);
         // 오늘 날짜
         loginData = findViewById(R.id.loginData);
 
-        loginData.setText(loginMember.getMemId());
+        // 회원님 아이디
+        loginData.setText("안녕하세요 "+ loginMember.getMemId() + "님!");
         dayOfWeek = findViewById(R.id.dayofweek);
         dayOfWeek.setText(scheduleService.dateCheck());
     }
 
-    // 메뉴바 생성
+    // 메뉴바 생성 : 추가, 수정, 삭제, 로그아웃
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_schedule, menu);
         return super.onCreateOptionsMenu(menu);
     }
 
-    // 메뉴 자언 추가, 수정, 삭제, 로그아웃
+    // 메뉴 자언 추가, 수정, 삭제, 로그아웃이 선택되었을 때
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
             case R.id.createSchedule:
                 setCreateSchedule();
                 break;
+//            case R.id.editSchedule:
+//                break;
             case R.id.deleteSchedule:
                 deleteCreateSchedule();
                 break;
-//            case R.id.editSchedule:
-//                break;
             case R.id.logout:
                 logout();
                 break;
@@ -96,6 +103,8 @@ public class LsMainActivity extends AppCompatActivity {
 
 
     public void setCreateSchedule() {
+
+        // schedule을 만드는 Dialog 생성
         Dialog dialog = new Dialog(this);
         dialog.setContentView(R.layout.createschedule);
         dialog.setTitle("시간표 추가");
@@ -106,8 +115,12 @@ public class LsMainActivity extends AppCompatActivity {
         EditText createNameSchedule = dialog.findViewById(R.id.createNameSchedule);
         selectDate = dialog.findViewById(R.id.selectDate);
 
+
+        // schedule 객체 생성
         Schedule schedule = new Schedule();
 
+
+        // 요일을 설정하는 팝업 메뉴
         selectDate.setOnClickListener(view -> {
             PopupMenu popup = new PopupMenu(this, view);
             popup.getMenuInflater().inflate(R.menu.datepopup_schedule, popup.getMenu());
@@ -140,7 +153,14 @@ public class LsMainActivity extends AppCompatActivity {
             });
             popup.show();
         });
+
+        // 강의 이름 설정 : ex) 자바캡스톤디자인
         schedule.setLecName(createNameSchedule.getText().toString());
+
+        // 회원의 데이터에 schedule setting
+        loginMember.setSchedule(schedule);
+
+        // 확인 버튼인데, 데이터가 다 입력되어야만 추가 완료
         addSchedule.setOnClickListener(view1 -> {
             if (createNameSchedule.getText().toString().equals("")) {
                 Toast.makeText(getApplicationContext(),
@@ -151,11 +171,14 @@ public class LsMainActivity extends AppCompatActivity {
             dialog.dismiss();
             }
         });
+
+        // 취소 버튼
         cancelSchedule.setOnClickListener(view2 -> dialog.dismiss());
         dialog.show();
     }
 
     // Deprecated
+    // 현재는 사용하지 않는다.
     @Deprecated
     public void deleteCreateSchedule() {
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
@@ -175,9 +198,11 @@ public class LsMainActivity extends AppCompatActivity {
         alertDialog.show();
     }
 
-    // 초기화면
+    // 초기화면 로그아웃
     public void logout() {
         Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+        // 로그인한 멤버는 이제 없음
+        loginMember = null;
         startActivity(intent);
     }
 }
