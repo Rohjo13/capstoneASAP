@@ -4,14 +4,18 @@ import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 
+import android.Manifest;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.media.MediaDataSource;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -121,12 +125,12 @@ public class LsMainActivity extends AppCompatActivity {
     }
 
     // 사진 찍는 메서드
-    public void takeAPicture() {
-        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
-            // 수정 필요 부분
+    private void takeAPicture() {
+        Intent takePictureIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
+//        if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
+//            // 수정 필요 부분
+//        }
             startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
-        }
     }
 
 
@@ -166,11 +170,10 @@ public class LsMainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-
     // create Schedule 을 위한 Dialog 생성
     public void setCreateSchedule() {
 
-        // schedule을 만드는 Dialog 생성
+        // schedule 을 만드는 Dialog 생성
         Dialog dialog = new Dialog(this);
         dialog.setContentView(R.layout.createschedule);
         dialog.setTitle("시간표 추가");
@@ -181,10 +184,8 @@ public class LsMainActivity extends AppCompatActivity {
         EditText createNameSchedule = dialog.findViewById(R.id.createNameSchedule);
         selectDate = dialog.findViewById(R.id.selectDate);
 
-
         // schedule 객체 생성
         Schedule schedule = new Schedule();
-
 
         // 요일을 설정하는 팝업 메뉴
         selectDate.setOnClickListener(view -> {
@@ -230,18 +231,16 @@ public class LsMainActivity extends AppCompatActivity {
             popup.show();
         });
 
-        // 강의 이름 설정 : ex) 자바캡스톤디자인
-
-
         // 회원의 데이터에 schedule setting
         loginMember.setSchedule(schedule);
         // ListView 에 올라갈 schedule
 
         // 확인 버튼인데, 데이터가 다 입력되어야만 추가 완료
         addSchedule.setOnClickListener(view1 -> {
+            // 강의 이름 설정 : ex) 자바캡스톤디자인
             schedule.setLecName(createNameSchedule.getText().toString());
             // 해당 강의가 요일이 선택되지 않으면서, 이름이 없을 때
-                if (createNameSchedule.getText().toString().equals("") && selectDate.getText().toString().equals("요일 선택")) {
+                if (createNameSchedule.getText().toString().equals("") || schedule.getDayOTW() == null) {
                     // 간이 메세지 전달
                     Toast.makeText(getApplicationContext(),
                             "전부 입력해주세요.", Toast.LENGTH_LONG).show();
@@ -249,8 +248,6 @@ public class LsMainActivity extends AppCompatActivity {
                     Toast.makeText(getApplicationContext(),
                             "강의가 추가 완료되었습니다.", Toast.LENGTH_LONG).show();
                     settingSchedule(schedule);
-                    System.out.println("강의 이름 " + schedule.getLecName());
-                    System.out.println("강이 날짜" + schedule.getDayOTW().name());
                     // dismiss
                     dialog.dismiss();
                 }
