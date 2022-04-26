@@ -1,39 +1,22 @@
 package co.mjc.capstoneasap;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
 
-import android.Manifest;
 import android.app.Dialog;
-import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.media.MediaDataSource;
-import android.os.Build;
 import android.os.Bundle;
-import android.provider.MediaStore;
-import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.PopupMenu;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.time.DayOfWeek;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.Optional;
 
 import co.mjc.capstoneasap.adapter.ScheduleAdapter;
 import co.mjc.capstoneasap.dto.Member;
@@ -133,7 +116,6 @@ public class LsMainActivity extends AppCompatActivity {
             startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
     }
 
-
     // Schedule 을 세팅하면 List 에 add
     public void settingSchedule(Schedule schedule) {
         scheduleArrayList.add(schedule);
@@ -149,7 +131,7 @@ public class LsMainActivity extends AppCompatActivity {
         return super.onCreateOptionsMenu(menu);
     }
 
-    // 메뉴 자언 추가, 수정, 삭제, 로그아웃이 선택되었을 때
+    // 메뉴 추가, 수정, 삭제, 로그아웃이 선택되었을 때
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
