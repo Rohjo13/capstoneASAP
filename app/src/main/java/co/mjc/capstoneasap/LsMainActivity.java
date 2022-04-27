@@ -70,22 +70,17 @@ public class LsMainActivity extends AppCompatActivity {
         // 로그인 성공시 loginAccess 로 멤버 객체 받아옴
         Intent intent = getIntent();
         loginMember = (Member) intent.getSerializableExtra("loginAccess");
-
         // 오늘 날짜
         loginData = findViewById(R.id.loginData);
         dayOfWeek = findViewById(R.id.dayofweek);
         dayOfWeek.setText(scheduleService.dateCheck());
-
         // 회원님 아이디 (hashMap에 default 로 들어가 있는 값이 id : 123 pwd : 123)
         loginData.setText("Hi! : " + loginMember.getMemId());
-
         // 리스트 뷰
         listView = findViewById(R.id.lsScheduleListView);
         scheduleAdapter = new ScheduleAdapter(this, scheduleArrayList);
-
         // 스케쥴 동적 리스트 뷰
         listView.setAdapter(scheduleAdapter);
-
         // 리스트 뷰를 눌렀을 때 popUp menu On -> 익스펜더블로 변경 예정
         listView.setOnItemClickListener((adapterView, view, i, l) -> {
             PopupMenu popup = new PopupMenu(getApplicationContext(), view);
@@ -104,7 +99,6 @@ public class LsMainActivity extends AppCompatActivity {
             });
             popup.show();
         });
-
     }
 
     // 사진 찍는 메서드
@@ -154,21 +148,18 @@ public class LsMainActivity extends AppCompatActivity {
 
     // create Schedule 을 위한 Dialog 생성
     public void setCreateSchedule() {
-
         // schedule 을 만드는 Dialog 생성
         Dialog dialog = new Dialog(this);
         dialog.setContentView(R.layout.createschedule);
         dialog.setTitle("시간표 추가");
-
+        // Button 객체 생성
         Button addSchedule = dialog.findViewById(R.id.addSchedule);
         Button cancelSchedule = dialog.findViewById(R.id.cancelAddSchedule);
-
+        // 강의 이름 설정
         EditText createNameSchedule = dialog.findViewById(R.id.createNameSchedule);
         selectDate = dialog.findViewById(R.id.selectDate);
-
         // schedule 객체 생성
         Schedule schedule = new Schedule();
-
         // 요일을 설정하는 팝업 메뉴
         selectDate.setOnClickListener(view -> {
             PopupMenu popup = new PopupMenu(this, view);
@@ -212,12 +203,9 @@ public class LsMainActivity extends AppCompatActivity {
             // show
             popup.show();
         });
-
         // 회원의 데이터에 schedule setting
         loginMember.setSchedule(schedule);
-        // ListView 에 올라갈 schedule
-
-        // 확인 버튼인데, 데이터가 다 입력되어야만 추가 완료
+        // 확인 버튼인데, 데이터가 다 입력되어야만 추가 완료 if 문으로 검사
         addSchedule.setOnClickListener(view1 -> {
             // 강의 이름 설정 : ex) 자바캡스톤디자인
             schedule.setLecName(createNameSchedule.getText().toString());
@@ -234,7 +222,6 @@ public class LsMainActivity extends AppCompatActivity {
                     dialog.dismiss();
                 }
         });
-
         // 취소 버튼
         cancelSchedule.setOnClickListener(view2 -> dialog.dismiss());
         dialog.show();

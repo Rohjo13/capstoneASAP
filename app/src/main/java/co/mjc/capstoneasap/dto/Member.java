@@ -14,6 +14,7 @@ public class Member implements Serializable {
     private String memPw;
     private String memMail;
 
+    // 문제있음 객체 배열로 받던 ArrayList로 받던 바꿔야함
     Schedule schedule;
 
     public Schedule getSchedule() {
@@ -23,7 +24,7 @@ public class Member implements Serializable {
     public void setSchedule(Schedule schedule) {
         this.schedule = schedule;
     }
-
+    // -----------------------------수정해야 됌-----------------------------------
     public String getMemId() {
         return memId;
     }
