@@ -1,5 +1,12 @@
 package co.mjc.capstoneasap.dto;
 
+import android.widget.ImageView;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import co.mjc.capstoneasap.R;
+
 public class Schedule {
 
     // 수업 이름

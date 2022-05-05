@@ -4,6 +4,7 @@ import java.util.Optional;
 
 import co.mjc.capstoneasap.dto.Schedule;
 
+@Deprecated
 public interface ScheduleRepository {
     // Schedule 양식에 맞게 저장하는 기능
     void save(Schedule schedule);

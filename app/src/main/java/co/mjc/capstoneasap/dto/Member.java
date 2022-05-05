@@ -1,10 +1,13 @@
 package co.mjc.capstoneasap.dto;
 
 
+import android.media.Image;
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.widget.ImageView;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 
 // Member Information
 // 직렬화 해서 객체 넘길 것이기 때문에 Serializable 구현
@@ -15,16 +18,27 @@ public class Member implements Serializable {
     private String memMail;
 
     // 문제있음 객체 배열로 받던 ArrayList로 받던 바꿔야함
-    Schedule schedule;
+//    Schedule schedule;
+    private ArrayList<Schedule> scheduleArrayList;
 
-    public Schedule getSchedule() {
-        return schedule;
+    private ArrayList<ImageView> cameraDataList;
+    // 그냥 리스트 다 던져버리자
+    public ArrayList<Schedule> getScheduleArrayList() {
+        return scheduleArrayList;
     }
 
-    public void setSchedule(Schedule schedule) {
-        this.schedule = schedule;
+    public void setScheduleArrayList(ArrayList<Schedule> scheduleArrayList) {
+        this.scheduleArrayList = scheduleArrayList;
     }
-    // -----------------------------수정해야 됌-----------------------------------
+
+    public ArrayList<ImageView> getCameraDataList() {
+        return cameraDataList;
+    }
+
+    public void setCameraDataList(ArrayList<ImageView> cameraDataList) {
+        this.cameraDataList = cameraDataList;
+    }
+
     public String getMemId() {
         return memId;
     }

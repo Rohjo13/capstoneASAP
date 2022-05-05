@@ -1,16 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="co.mjc.capstoneasap">
-
-<!--    안드로이드 카메라 API -->
+    <!-- 안드로이드 카메라 API -->
     <uses-feature
-        android:name="android.hardware.camera"
-        android:required="true"/>
-
-<!--    저장 가능 권한 -->
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
-    <uses-permission android:name="android.permission.CAMERA"/>
+        android:name="android.hardware.allData"
+        android:required="true" /> <!-- 저장 가능 권한 -->
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.ACCESS_MEDIA_LOCATION"/>
 
     <application
         android:allowBackup="true"
@@ -18,8 +16,10 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-
         android:theme="@style/Theme.AppCompat.DayNight.DarkActionBar">
+        <activity
+            android:name=".CameraFolderActivity"
+            android:exported="false" />
         <activity
             android:name=".LsMainActivity"
             android:exported="false" />
@@ -33,5 +33,5 @@
             </intent-filter>
         </activity>
     </application>
-<!--android:theme="@style/Theme.CapstoneASAP">-->
+
 </manifest>

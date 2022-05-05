@@ -12,6 +12,8 @@ import java.util.Optional;
 import co.mjc.capstoneasap.dto.Schedule;
 import co.mjc.capstoneasap.dto.ScheduleEnum;
 
+
+@Deprecated
 public class MemoryScheduleRepository implements ScheduleRepository{
 
     // 저장을 뭘로 할건지?

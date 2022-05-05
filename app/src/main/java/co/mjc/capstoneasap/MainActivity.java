@@ -32,16 +32,23 @@ public class MainActivity extends AppCompatActivity {
     Button btn_login;
 
 
-    //
-    MemberRepository memberRepository;
-    MemberService memberService;
-    LsMainActivity lsMainActivity;
+    // 싱글 인스턴스로 사용할려고 다른 방법도 있는데 이 방법밖에 생각 안남
+    static MemberRepository memberRepository;
+    static MemberService memberService;
 
     // 생성자로 DI 주입 Bean 역할
     public MainActivity() {
-        System.out.println("생성자 실행됨");
-        memberRepository = new MemoryMemberRepository();
-        memberService = new MemberService(memberRepository);
+        System.out.println("MainActivity Constructor");
+
+        // 없으면 만든다.
+        if (memberRepository == null) {
+            System.out.println("MainActivity.memberRepository is null");
+            memberRepository = new MemoryMemberRepository();
+        }
+        if (memberService == null) {
+            System.out.println("MemberActivity.memberService is null");
+            memberService = new MemberService(memberRepository);
+        }
     }
 
 
@@ -49,6 +56,7 @@ public class MainActivity extends AppCompatActivity {
     @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        System.out.println("Main onCreate");
         super.onCreate(savedInstanceState);
         // 메인 페이지
         setContentView(R.layout.activity_ns_main);
@@ -57,30 +65,30 @@ public class MainActivity extends AppCompatActivity {
 
         // Login Logic
         btn_login.setOnClickListener(
-        // 람다식
-        view -> {
-            // ID , PWD
-            edtId = findViewById(R.id.edtId);
-            edtPwd = findViewById(R.id.edtPwd);
-            Boolean loginAccess = memberService.login(edtId, edtPwd);
-            if (loginAccess) {
-                Member member = memberService.getById(edtId);
-                // 로그인 성공 시, 화면 전환, 화면 전환하는 클래스는 Intent
-                // 새로운 Intent 를 생성하는데, LsMainActivity 로 인스턴스 생성
-                Intent intent = new Intent(this, LsMainActivity.class);
+                // 람다식
+                view -> {
+                    // ID , PWD
+                    edtId = findViewById(R.id.edtId);
+                    edtPwd = findViewById(R.id.edtPwd);
+                    Boolean loginAccess = memberService.login(edtId, edtPwd);
+                    if (loginAccess) {
+                        Member member = memberService.getById(edtId);
+                        // 로그인 성공 시, 화면 전환, 화면 전환하는 클래스는 Intent
+                        // 새로운 Intent 를 생성하는데, LsMainActivity 로 인스턴스 생성
+                        Intent intent = new Intent(this, LsMainActivity.class);
 
-                // 로그인 정보 넘겨주기
-                intent.putExtra("loginAccess", member);
-                // 인텐트에서 생성한 LsMainActivity 로 전환한다.
-                startActivity(intent);
-            }
-            // 비밀번호 틀림 || 아이디 잘못 입력
-            else {
-                AlertDialog.Builder builder = new AlertDialog.Builder(this);
-                builder.setTitle("경고!").setMessage("존재하지 않는 회원이거나 비밀번호가 다릅니다.");
-                AlertDialog alertDialog = builder.create();
-                alertDialog.show();
-            }
-        });
+                        // 로그인 정보 넘겨주기
+                        intent.putExtra("loginAccess", member);
+                        // 인텐트에서 생성한 LsMainActivity 로 전환한다.
+                        startActivity(intent);
+                    }
+                    // 비밀번호 틀림 || 아이디 잘못 입력
+                    else {
+                        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                        builder.setTitle("경고!").setMessage("존재하지 않는 회원이거나 비밀번호가 다릅니다.");
+                        AlertDialog alertDialog = builder.create();
+                        alertDialog.show();
+                    }
+                });
     }
 }

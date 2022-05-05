@@ -6,7 +6,7 @@ import java.util.Date;
 
 // 지금 안씀
 @Deprecated
-public class Camera {
+public class AllData {
     Image picImage;
     Date picDate;
     String picName;

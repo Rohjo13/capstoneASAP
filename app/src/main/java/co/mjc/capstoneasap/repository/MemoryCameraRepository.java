@@ -2,12 +2,13 @@ package co.mjc.capstoneasap.repository;
 
 import android.media.Image;
 
-import co.mjc.capstoneasap.dto.Camera;
+import co.mjc.capstoneasap.dto.AllData;
 
+@Deprecated
 public class MemoryCameraRepository implements CameraRepository{
 
     @Override
-    public void saveImage(Camera camera) {
+    public void saveImage(AllData allData) {
 
     }
 

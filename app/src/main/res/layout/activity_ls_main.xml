@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -20,10 +20,23 @@
                 android:id="@+id/dayofweek"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="0.5"
                 android:text="null"
+                android:textAlignment="center"
                 android:textSize="32sp"
                 android:textStyle="bold" />
+
+        </TableRow>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:background="#333333"/>
+<!--            <ListView-->
+<!--                android:id="@+id/lsScheduleListView"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="match_parent" />-->
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" >
 
             <TextView
                 android:id="@+id/loginData"
@@ -31,14 +44,25 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="0.5"
                 android:text="nullname"
+                android:textAlignment="center"
                 android:textSize="32sp"
                 android:textStyle="bold" />
         </TableRow>
 
-        <ListView
-            android:id="@+id/lsScheduleListView"
+        <TableRow
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent">
+            <ExpandableListView
+                android:id="@+id/lsScheduleListExpandable"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:divider="#333333"
+                android:dividerHeight="2dp" />
+        </TableRow>
+<!--        <ExpandableListView-->
+<!--            android:id="@+id/lsScheduleListViewExpandable"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="match_parent"/>-->
 
     </LinearLayout>
-</androidx.constraintlayout.widget.ConstraintLayout>
+</RelativeLayout>
