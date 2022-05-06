@@ -34,7 +34,7 @@ public class MainActivity extends AppCompatActivity {
 
     // 싱글 인스턴스로 사용할려고 다른 방법도 있는데 이 방법밖에 생각 안남
     static MemberRepository memberRepository;
-    static MemberService memberService;
+    MemberService memberService;
 
     // 생성자로 DI 주입 Bean 역할
     public MainActivity() {

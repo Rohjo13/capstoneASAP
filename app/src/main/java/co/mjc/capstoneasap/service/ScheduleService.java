@@ -5,6 +5,7 @@ import android.content.Context;
 import android.os.Build;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.PopupMenu;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -13,6 +14,7 @@ import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Optional;
 
@@ -162,6 +164,12 @@ public class ScheduleService {
                 Toast.makeText(context,
                         "강의가 추가 완료되었습니다.", Toast.LENGTH_LONG).show();
                 loginMember.getScheduleArrayList().add(schedule);
+
+                // 이 라인 수정 필요
+//                camera.setImageResource(R.drawable.cameraicon);
+//                folder.setImageResource(R.drawable.foldericon);
+//                loginMember.getCameraDataList().add();
+//                loginMember.getCameraDataList().add();
                 adapter.notifyDataSetChanged();
                 // dismiss
                 dialog.dismiss();

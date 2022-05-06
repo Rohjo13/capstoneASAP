@@ -1,18 +1,14 @@
 package co.mjc.capstoneasap.adapter;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
-import android.widget.ExpandableListView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
 
 import co.mjc.capstoneasap.R;
 import co.mjc.capstoneasap.dto.Schedule;
@@ -22,10 +18,10 @@ public class ScheduleExpandableAdapter extends BaseExpandableListAdapter {
     Context mContext;
     ArrayList<Schedule> scheduleArrayList;
     LayoutInflater mLayoutInflater = null;
-    ArrayList<ImageView> imageViews;
+    ArrayList<Integer> imageViews;
 
     public ScheduleExpandableAdapter(Context mContext,
-                                     ArrayList<Schedule> scheduleArrayList, ArrayList<ImageView> imageViews) {
+                                     ArrayList<Schedule> scheduleArrayList, ArrayList<Integer> imageViews) {
         this.mContext = mContext;
         this.scheduleArrayList = scheduleArrayList;
         mLayoutInflater = LayoutInflater.from(mContext);
@@ -41,7 +37,7 @@ public class ScheduleExpandableAdapter extends BaseExpandableListAdapter {
     public int getChildrenCount(int i) {
         System.out.println("getChildrenCount");
         // 제발 1 바꾸지마 -> 숫자 올리면 중복해서 여러 개 생김
-        return 1;
+        return imageViews.size();
     }
 
     @Override
@@ -68,7 +64,7 @@ public class ScheduleExpandableAdapter extends BaseExpandableListAdapter {
 
     @Override
     public boolean hasStableIds() {
-        return false;
+        return true;
     }
 
     @Override
@@ -84,12 +80,8 @@ public class ScheduleExpandableAdapter extends BaseExpandableListAdapter {
     public View getChildView(int gPos, int cPos, boolean b, View notView, ViewGroup viewGroup) {
         System.out.println("getChildView");
         View view = mLayoutInflater.inflate(R.layout.schedulelistchild, null);
-        ImageView camera = view.findViewById(R.id.cameraFunc);
-        ImageView folder = view.findViewById(R.id.folderFunc);
-        camera.setImageResource(R.drawable.cameraicon);
-        folder.setImageResource(R.drawable.foldericon);
-        imageViews.add(camera);
-        imageViews.add(folder);
+        ImageView func = view.findViewById(R.id.func);
+        func.setImageResource(imageViews.get(cPos));
         return view;
     }
 

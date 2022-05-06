@@ -47,6 +47,7 @@ public class CameraFolderActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent returnIntent = new Intent(getApplicationContext(), LsMainActivity.class);
+                returnIntent.putExtra("loginAccess", loginMember);
                 startActivity(returnIntent);
             }
         });

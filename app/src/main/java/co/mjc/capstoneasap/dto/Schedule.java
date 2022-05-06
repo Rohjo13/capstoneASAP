@@ -2,12 +2,13 @@ package co.mjc.capstoneasap.dto;
 
 import android.widget.ImageView;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 import co.mjc.capstoneasap.R;
 
-public class Schedule {
+public class Schedule implements Serializable {
 
     // 수업 이름
     private String lecName;
