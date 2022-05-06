@@ -4,12 +4,15 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.BitSet;
 
 import co.mjc.capstoneasap.dto.Member;
 
@@ -41,7 +44,7 @@ public class CameraFolderActivity extends AppCompatActivity {
         loginMember = (Member) intent.getSerializableExtra("loginAccessData");
         loginMemberImageData = loginMember.getCameraDataList();
 
-        settingCameraImage();
+//        settingCameraImage();
 
         returnTextView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -53,11 +56,10 @@ public class CameraFolderActivity extends AppCompatActivity {
         });
     }
 
-    @SuppressLint("ResourceType")
     public void settingCameraImage() {
         // 일단 하나
         for (int i = 0; i < loginMemberImageData.size(); i++) {
-        haveImage.setImageResource(loginMemberImageData.get(i).getId());
+//        haveImage.setImageResource(loginMemberImageData.get(i).getId());
         }
     }
 }

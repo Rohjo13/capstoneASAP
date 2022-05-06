@@ -34,7 +34,7 @@ public class MainActivity extends AppCompatActivity {
 
     // 싱글 인스턴스로 사용할려고 다른 방법도 있는데 이 방법밖에 생각 안남
     static MemberRepository memberRepository;
-    MemberService memberService;
+    static MemberService memberService;
 
     // 생성자로 DI 주입 Bean 역할
     public MainActivity() {
@@ -46,7 +46,7 @@ public class MainActivity extends AppCompatActivity {
             memberRepository = new MemoryMemberRepository();
         }
         if (memberService == null) {
-            System.out.println("MemberActivity.memberService is null");
+            System.out.println("MainActivity.memberService is null");
             memberService = new MemberService(memberRepository);
         }
     }
@@ -62,7 +62,6 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_ns_main);
         // login Button
         btn_login = findViewById(R.id.btn_login);
-
         // Login Logic
         btn_login.setOnClickListener(
                 // 람다식
@@ -73,6 +72,7 @@ public class MainActivity extends AppCompatActivity {
                     Boolean loginAccess = memberService.login(edtId, edtPwd);
                     if (loginAccess) {
                         Member member = memberService.getById(edtId);
+                        System.out.println("MainActivity onCreate memberSchedule Size : " + member.getScheduleArrayList().size());
                         // 로그인 성공 시, 화면 전환, 화면 전환하는 클래스는 Intent
                         // 새로운 Intent 를 생성하는데, LsMainActivity 로 인스턴스 생성
                         Intent intent = new Intent(this, LsMainActivity.class);

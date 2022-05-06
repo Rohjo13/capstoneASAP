@@ -5,6 +5,7 @@ import android.widget.ImageView;
 
 import androidx.annotation.RequiresApi;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -31,7 +32,13 @@ public class MemoryMemberRepository implements MemberRepository {
         member.setMemId("123");
         member.setMemMail("123@123.com");
         member.setMemPw("123");
+        Schedule schedule = new Schedule();
+        schedule.setDayOTW(ScheduleEnum.TUESDAY);
+        schedule.setLecName("Hello");
         // list도 default로 만들어서 줬음
+        member.setScheduleArrayList(arrayList);
+
+        member.getScheduleArrayList().add(schedule);
         member.setScheduleArrayList(arrayList);
         ArrayList<ImageView> cameraDataList = new ArrayList<>();
         member.setCameraDataList(cameraDataList);

@@ -12,6 +12,7 @@ import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.provider.MediaStore;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -27,7 +28,10 @@ import android.widget.Toast;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.Serializable;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -51,22 +55,25 @@ public class LsMainActivity extends AppCompatActivity {
 
     // 카메라 기능에 사용할 것
     static final int REQUEST_IMAGE_CAPTURE = 1;
+    static final int REQUEST_TAKE_PHOTO = 1;
+    String currentPhotoPath;
+
 
     TextView dayOfWeek;
     TextView loginData;
 
-    ImageView layoutImage;
-
+    ImageView layoutGalleryImage;
+//    ArrayList<ImageView> layoutGalleries;
 
     // 사진 저장하는 ImageViewList 임
     // 그냥 static 으로 CameraFolderAc 에 던져버린다.
-    static ArrayList<ImageView> cameraImage;
+    static ArrayList<ImageView> layoutGalleries;
 
     // 임시 카메라 이미지 위의 리스트에 들어갈 객체
     ImageView getCameraImage;
 
     // 이건 schedule 에 있는거고
-    ArrayList<Integer> imageViewList;
+    ArrayList<Integer> funcImageViewList;
 
     // member 에 있는거고
     List<Schedule> scheduleList;
@@ -94,8 +101,7 @@ public class LsMainActivity extends AppCompatActivity {
         scheduleService = new ScheduleService(scheduleRepository);
         cameraService = new CameraService();
         memberRepository = MainActivity.memberRepository;
-        memberService = new MemberService(memberRepository);
-
+        memberService = MainActivity.memberService;
         // 이미지 뷰는 만든다.
     }
 
@@ -109,7 +115,7 @@ public class LsMainActivity extends AppCompatActivity {
 
         // 임시
         getCameraImage = findViewById(R.id.activityCamera_Image);
-        layoutImage = findViewById(R.id.layoutCamera_Image);
+        layoutGalleryImage = findViewById(R.id.layoutCamera_Image);
 
         System.out.println("onCreate()");
 //        camera = findViewById(R.id.cameraFunc);
@@ -125,16 +131,16 @@ public class LsMainActivity extends AppCompatActivity {
         loginData.setText("반갑습니다. : " + loginMember.getMemId() + "님");
         // Member 안에 있는 Schedule 을 끄집어 낼려고 CameraData 도 끄집어낼거임
         // 참고로 MemberRepository 에 내장해서 저장해놨음
-        cameraImage = loginMember.getCameraDataList();
+        layoutGalleries = loginMember.getCameraDataList();
         scheduleList = loginMember.getScheduleArrayList();
-
+        System.out.println("onCreate() by LsMain size? "+ scheduleList.size());
 
         // 업데이트
         memberShowDefaultData();
 
         expandableListView = findViewById(R.id.lsScheduleListExpandable);
         scheduleAdapter = new ScheduleExpandableAdapter(getApplicationContext(), loginMember.getScheduleArrayList()
-                , imageViewList);
+                , funcImageViewList);
         expandableListView.setAdapter(scheduleAdapter);
 
         // 업데이트
@@ -155,37 +161,6 @@ public class LsMainActivity extends AppCompatActivity {
         expandableListView.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
             @Override
             public boolean onChildClick(ExpandableListView expandableListView, View view, int gPos, int cPos, long l) {
-                // 여기 전체적으로 다 문제있음
-                // 다 뜯고 수정해야 됌
-//                switch (imageViewList.get(gPos).getId()) {
-//                    case R.id.cameraFunc:
-//                        takeAPicture();
-//                        break;
-//                    case R.id.folderFunc:
-//                        memberCameraFolder();
-//                        break;
-//                    default:
-//                }
-//                ImageView camera = imageViewList.get(0);
-//                ImageView folder = imageViewList.get(1);
-//                if (camera.getId() == R.id.cameraFunc) {
-//                    System.out.println("카메라 기능 클릭");
-//                    takeAPicture();
-//                }
-//
-//                if (folder.getId() == R.id.folderFunc) {
-//                    System.out.println("폴더 기능 클릭");
-//                    memberCameraFolder();
-//                }
-//                switch (imageView.getId()) {
-//                    case R.id.cameraFunc:
-//                        takeAPicture();
-//                        break;
-//                    case R.id.folderFunc:
-//                        memberCameraFolder();
-//                        break;
-//                    default:
-//                }
                 switch (cPos) {
                     case 0: // 0은 카메라
                         takeAPicture();
@@ -197,29 +172,10 @@ public class LsMainActivity extends AppCompatActivity {
                     default:
                         break;
                 }
-
-                Toast.makeText(getApplicationContext(), "" + cPos, Toast.LENGTH_LONG).show();
                 return false;
             }
         });
     }
-
-//    public void openCameraFolder() {
-//        Dialog dialog = new Dialog(this);
-//        dialog.setContentView(R.layout.layoutbycameraimage);
-//        dialog.setTitle("로그인 화면");
-//
-////        Button login = dialog.findViewById(R.id.login);
-////        Button cancel = dialog.findViewById(R.id.cancel);
-//
-////        EditText username = dialog.findViewById(R.id.username);
-////        EditText password = dialog.findViewById(R.id.password);
-//
-////        cancel.setOnClickListener(view12 -> dialog.dismiss());
-//        dialog.show();
-//    }
-
-
 
 
     // 사진 찍는 메서드
@@ -241,34 +197,51 @@ public class LsMainActivity extends AppCompatActivity {
             Bitmap imageBitmap = (Bitmap) extras.get("data");
 
             // 이거 문제있음
-            layoutImage.setImageBitmap(imageBitmap);
+//            layoutGalleryImage.setImageBitmap(imageBitmap);
 //            getCameraImage.setImageBitmap(imageBitmap);
+//            layoutGalleries.add(imageBitmap);
         }
     }
 
-    static final int REQUEST_TAKE_PHOTO = 1;
 
-    private void dispatchTakePictureIntent() {
+    // 이게 뭘까? 5.6
+
+    private File createImageFile() throws IOException {
+        // Create an image file name
+        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+        String imageFileName = "JPEG_" + timeStamp + "_";
+        File storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
+        File image = File.createTempFile(
+                imageFileName,  /* prefix */
+                ".jpg",         /* suffix */
+                storageDir      /* directory */
+        );
+
+        // Save a file: path for use with ACTION_VIEW intents
+        currentPhotoPath = image.getAbsolutePath();
+        return image;
+    }
+
+
+
+    // 입출력 Exception 터지면 어케 처리할 건지?
+    private void dispatchTakePictureIntent() throws IOException{
         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         // Ensure that there's a camera activity to handle the intent
         if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
             // Create the File where the photo should go
             File photoFile = null;
-            photoFile = createImageFile();
+                photoFile = createImageFile();
             // Continue only if the File was successfully created
             if (photoFile != null) {
                 Uri photoURI = FileProvider.getUriForFile(this,
-                        "com.example.android.fileprovider",
-                        photoFile);
+                        "co.mjc.capstoneasap", photoFile);
                 takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
                 startActivityForResult(takePictureIntent, REQUEST_TAKE_PHOTO);
             }
         }
     }
 
-    private File createImageFile() {
-        return null;
-    }
 
 
     public void memberCameraFolder() {
@@ -285,21 +258,21 @@ public class LsMainActivity extends AppCompatActivity {
         System.out.println("memberShowDefaultData()");
         scheduleList = loginMember.getScheduleArrayList();
         if (scheduleList == loginMember.getScheduleArrayList()) {
-            System.out.println("Same this ScheduleArrayList");
+            System.out.println("Member Same this ScheduleArrayList");
         }
         if (scheduleList == null) {
             System.out.println("Member don't have ArrayList");
             scheduleList = new ArrayList<>();
         }
-        if (imageViewList == null) {
-            System.out.println("imageViewList is null");
-            imageViewList = new ArrayList<>();
-            imageViewList.add(R.drawable.cameraicon);
-            imageViewList.add(R.drawable.foldericon);
+        if (funcImageViewList == null) {
+            System.out.println("funcImageViewList is null");
+            funcImageViewList = new ArrayList<>();
+            funcImageViewList.add(R.drawable.cameraicon);
+            funcImageViewList.add(R.drawable.foldericon);
         }
-        if (cameraImage == null) {
-            System.out.println("cameraImage is null");
-            cameraImage = new ArrayList<>();
+        if (layoutGalleries == null) {
+            System.out.println("layoutGalleries is null");
+            layoutGalleries = new ArrayList<>();
         }
     }
 
@@ -316,7 +289,6 @@ public class LsMainActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
             case R.id.createSchedule:
-
                 scheduleService.setCreateSchedule(this, loginMember, scheduleAdapter);
                 break;
             case R.id.editSchedule:
