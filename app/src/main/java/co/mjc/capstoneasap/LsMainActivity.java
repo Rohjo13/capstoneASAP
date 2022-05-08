@@ -3,17 +3,24 @@ package co.mjc.capstoneasap;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 import androidx.core.content.FileProvider;
 
+import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Dialog;
+import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.graphics.ImageDecoder;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -50,34 +57,31 @@ import co.mjc.capstoneasap.service.MemberService;
 import co.mjc.capstoneasap.service.ScheduleService;
 
 
-// 로그아웃하고 로그인하는데 객체가 왜 또 생기지? static 으로 메모리에 올려놨는데도 불구하고
 public class LsMainActivity extends AppCompatActivity {
 
     // 카메라 기능에 사용할 것
-    static final int REQUEST_IMAGE_CAPTURE = 1;
     static final int REQUEST_TAKE_PHOTO = 1;
-    String currentPhotoPath;
+    private String mCurrentPhotoPath;
 
 
+    // 로그 찍어 볼려고
+    static final String LogTAG = "ASAP 실행 결과";
+
+    // 오늘 날짜
     TextView dayOfWeek;
+    // 로그인 한 사람 아이디
     TextView loginData;
 
-    ImageView layoutGalleryImage;
-//    ArrayList<ImageView> layoutGalleries;
-
-    // 사진 저장하는 ImageViewList 임
-    // 그냥 static 으로 CameraFolderAc 에 던져버린다.
-    static ArrayList<ImageView> layoutGalleries;
-
-    // 임시 카메라 이미지 위의 리스트에 들어갈 객체
-    ImageView getCameraImage;
 
     // 이건 schedule 에 있는거고
     ArrayList<Integer> funcImageViewList;
 
     // member 에 있는거고
     List<Schedule> scheduleList;
+    ArrayList<String> filePaths;
 
+
+    // 익스팬더블 리스트뷰 && 어댑터
     ExpandableListView expandableListView;
     ScheduleExpandableAdapter scheduleAdapter;
 
@@ -92,9 +96,8 @@ public class LsMainActivity extends AppCompatActivity {
 
     // 생성자 주입
     public LsMainActivity() {
-        System.out.println("LsMainAc Constructor");
+        Log.d(LogTAG, "LsMainAc Constructor");
         handlerThread = new HandlerThread(this);
-
 
 
         scheduleRepository = new MemoryScheduleRepository();
@@ -109,17 +112,10 @@ public class LsMainActivity extends AppCompatActivity {
     // 중요한 것 객체를 찾아오기 전 부터 자꾸 객체에 접근하지 말자. 오류 많이 난다.
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        System.out.println("lsMain onCreate");
+        Log.d(LogTAG, "lsMain onCreate");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_ls_main);
 
-        // 임시
-        getCameraImage = findViewById(R.id.activityCamera_Image);
-        layoutGalleryImage = findViewById(R.id.layoutCamera_Image);
-
-        System.out.println("onCreate()");
-//        camera = findViewById(R.id.cameraFunc);
-//        folder = findViewById(R.id.folderFunc);
         // 로그인 성공시 loginAccess 로 멤버 객체 받아옴
         Intent intent = getIntent();
         loginMember = (Member) intent.getSerializableExtra("loginAccess");
@@ -131,119 +127,133 @@ public class LsMainActivity extends AppCompatActivity {
         loginData.setText("반갑습니다. : " + loginMember.getMemId() + "님");
         // Member 안에 있는 Schedule 을 끄집어 낼려고 CameraData 도 끄집어낼거임
         // 참고로 MemberRepository 에 내장해서 저장해놨음
-        layoutGalleries = loginMember.getCameraDataList();
         scheduleList = loginMember.getScheduleArrayList();
-        System.out.println("onCreate() by LsMain size? "+ scheduleList.size());
+        filePaths = loginMember.getFilePaths();
+        Log.d(LogTAG, "onCreate() by LsMain size? " + scheduleList.size());
 
         // 업데이트
         memberShowDefaultData();
 
+
+        // 익스팬더블 리스트 뷰
         expandableListView = findViewById(R.id.lsScheduleListExpandable);
+        // 어뎁터 인스턴스 생성
         scheduleAdapter = new ScheduleExpandableAdapter(getApplicationContext(), loginMember.getScheduleArrayList()
                 , funcImageViewList);
+        // 어뎁터 설정
         expandableListView.setAdapter(scheduleAdapter);
 
         // 업데이트
         scheduleAdapter.notifyDataSetChanged();
 
-        expandableListView.setOnGroupClickListener(new ExpandableListView.OnGroupClickListener() {
-            @Override
-            public boolean onGroupClick(ExpandableListView expandableListView, View view, int gPos, long l) {
-                System.out.println("onGroupClick");
-//                expandableListView.setBackgroundColor(Color.parseColor("#333333"));
-                Toast.makeText(getApplicationContext(), scheduleList.get(gPos).getLecName() +
-                        "를 선택하셨습니다.", Toast.LENGTH_LONG).show();
-
-                return false;
-            }
+        // 스케쥴을 누른다면
+        expandableListView.setOnGroupClickListener((expandableListView, view, gPos, l) -> {
+            System.out.println("onGroupClick");
+            Toast.makeText(getApplicationContext(), scheduleList.get(gPos).getLecName() +
+                    "를 선택하셨습니다.", Toast.LENGTH_LONG).show();
+            return false;
         });
 
-        expandableListView.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
-            @Override
-            public boolean onChildClick(ExpandableListView expandableListView, View view, int gPos, int cPos, long l) {
-                switch (cPos) {
-                    case 0: // 0은 카메라
-                        takeAPicture();
-                        break;
-                    case 1: // 카메라 폴더로 전환
-                        memberCameraFolder();
-//                        openCameraFolder();
-                        break;
-                    default:
-                        break;
-                }
-                return false;
+        // 눌린 스케쥴의 자식을 누른다면 해당 기능 실행
+        expandableListView.setOnChildClickListener((expandableListView, view, gPos, cPos, l) -> {
+            switch (cPos) {
+                case 0: // 0은 카메라
+                    takeAPicture();
+                    break;
+                case 1: // 카메라 폴더로 전환
+                    memberCameraFolder();
+                    break;
             }
+            return false;
         });
     }
 
+    // 사진 찍는 메서드 ------------------------------------------------------------------------------
 
-    // 사진 찍는 메서드
-    private void takeAPicture() {
-        Intent takePictureIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
-        // 이거 못쓰니까 쓰레드로 받던지 합시다.
-//        if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
-//            // 수정 필요 부분
-//        }
-        startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
-    }
-
-    // 사진 찍은거 가져와야지
+    // 카메라로 촬영한 사진의 썸네일을 가져와 이미지뷰에 띄워준다 3번 호출
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
-            Bundle extras = data.getExtras();
-            Bitmap imageBitmap = (Bitmap) extras.get("data");
-
-            // 이거 문제있음
-//            layoutGalleryImage.setImageBitmap(imageBitmap);
-//            getCameraImage.setImageBitmap(imageBitmap);
-//            layoutGalleries.add(imageBitmap);
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (grantResults[0] == PackageManager.PERMISSION_GRANTED && grantResults[1] == PackageManager.PERMISSION_GRANTED) {
         }
     }
 
 
-    // 이게 뭘까? 5.6
+    // 4번 호출 그 결과(파일 경로 String 여기서 이미지 형식으로 저장하는 것이 아님)를 filePaths 리스트에 넣어서 CameraActivity 에 뿌려줄려고
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
+        super.onActivityResult(requestCode, resultCode, intent);
+        try {
+            switch (requestCode) {
+                case REQUEST_TAKE_PHOTO: {
+                    if (resultCode == RESULT_OK) {
+                        // 파일 경로명 추가
+                        filePaths.add(mCurrentPhotoPath);
+                    }
+                    break;
+                }
+            }
+        } catch (Exception error) {
+            error.printStackTrace();
+        }
+    }
 
+    // 구현해야 할게 강의별 사진을 따로 저장하는거랑 뷰페이저로 바꿔서 날짜별로 강의가 뜨게 해야 하는 것
+    // takeAPicture 에서 호출 2번
     private File createImageFile() throws IOException {
-        // Create an image file name
+        // 파일 저장 형식
         String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
         String imageFileName = "JPEG_" + timeStamp + "_";
+        // 내부 저장소 경로
         File storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
-        File image = File.createTempFile(
-                imageFileName,  /* prefix */
-                ".jpg",         /* suffix */
-                storageDir      /* directory */
-        );
+        // 임시 파일을 만드는데, 형식을 특정 이름으로 저장하고, jpg 파일 형식으로, 내부 저장소 경로로 파일 생성하고,
+        File image = File.createTempFile(imageFileName, ".jpg", storageDir);
 
-        // Save a file: path for use with ACTION_VIEW intents
-        currentPhotoPath = image.getAbsolutePath();
+        // 이렇게 만들어진 저장경로를 String 에 저장함
+        mCurrentPhotoPath = image.getAbsolutePath();
+//        JPEG_20220508_175021_3479621252757571591.jpg
+        Log.d(LogTAG, "현재 경로는 다음과 같습니다 : "+mCurrentPhotoPath);
         return image;
     }
 
 
-
-    // 입출력 Exception 터지면 어케 처리할 건지?
-    private void dispatchTakePictureIntent() throws IOException{
-        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        // Ensure that there's a camera activity to handle the intent
-        if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
-            // Create the File where the photo should go
-            File photoFile = null;
-                photoFile = createImageFile();
-            // Continue only if the File was successfully created
-            if (photoFile != null) {
-                Uri photoURI = FileProvider.getUriForFile(this,
-                        "co.mjc.capstoneasap", photoFile);
-                takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
-                startActivityForResult(takePictureIntent, REQUEST_TAKE_PHOTO);
+    // 1번 호출
+    private void takeAPicture() {
+        // 버전이 낮을 경우에 권한 요청해야 됌
+//        권한 요청 했다면
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if (checkSelfPermission(Manifest.permission.CAMERA) ==
+                    PackageManager.PERMISSION_GRANTED && checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                    == PackageManager.PERMISSION_GRANTED) {
+                Log.d(LogTAG, "권한 설정 완료 됌");
+            }
+//                아직 권한 요청 안하면
+            else {
+                Log.d(LogTAG, "카메라 권한 요청");
+                ActivityCompat.requestPermissions(LsMainActivity.this, new String[]{
+                        Manifest.permission.CAMERA,
+                        Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
             }
         }
+
+        // 카메라 앱으로 넘어가는 인텐트
+        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+//        if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
+        File photoFile = null;
+        try {
+            photoFile = createImageFile();
+        } catch (IOException ex) {
+        }
+        if (photoFile != null) {
+            // 사진 파일 경로명 지정
+            Uri photoURI = FileProvider.getUriForFile(this, "co.mjc.capstoneasap.fileprovider", photoFile);
+            takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
+            startActivityForResult(takePictureIntent, REQUEST_TAKE_PHOTO);
+        }
+//        }
     }
 
-
-
+    // 직렬화로 데이터 넘겨서 사진 보여줄려고
     public void memberCameraFolder() {
         // 사진이 들어있는 액티비티로 전환
         Intent intent = new Intent(this, CameraFolderActivity.class);
@@ -252,27 +262,25 @@ public class LsMainActivity extends AppCompatActivity {
         // 인텐트에서 생성한 LsMainActivity 로 전환한다.
         startActivity(intent);
     }
+    // 여기까지가 카메라 기능 ------------------------------------------------------------------------------
+
 
     // 멤버가 가지고 있는 Data 를 화면에 뿌림 (현재 안됨 5.5)
     public void memberShowDefaultData() {
-        System.out.println("memberShowDefaultData()");
+        Log.d(LogTAG, "memberShowDefaultData()");
         scheduleList = loginMember.getScheduleArrayList();
         if (scheduleList == loginMember.getScheduleArrayList()) {
-            System.out.println("Member Same this ScheduleArrayList");
+            Log.d(LogTAG, "Member Same this ScheduleArrayList");
         }
         if (scheduleList == null) {
-            System.out.println("Member don't have ArrayList");
+            Log.d(LogTAG, "Member don't have ArrayList");
             scheduleList = new ArrayList<>();
         }
         if (funcImageViewList == null) {
-            System.out.println("funcImageViewList is null");
+            Log.d(LogTAG, "funcImageViewList is null");
             funcImageViewList = new ArrayList<>();
             funcImageViewList.add(R.drawable.cameraicon);
             funcImageViewList.add(R.drawable.foldericon);
-        }
-        if (layoutGalleries == null) {
-            System.out.println("layoutGalleries is null");
-            layoutGalleries = new ArrayList<>();
         }
     }
 
@@ -294,11 +302,9 @@ public class LsMainActivity extends AppCompatActivity {
             case R.id.editSchedule:
                 break;
             case R.id.deleteSchedule:
-//                deleteCreateSchedule();
                 scheduleService.deleteCreateSchedule(this);
                 break;
             case R.id.logout:
-//                memberService.logout(getApplicationContext(),loginMember);
                 logout();
                 break;
             default:

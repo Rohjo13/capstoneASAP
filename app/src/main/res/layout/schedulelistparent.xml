@@ -14,7 +14,7 @@
         android:paddingLeft="30dp"
         android:text="강의 이름"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:textSize="40sp"
+        android:textSize="30sp"
         android:textStyle="bold" />
 
 

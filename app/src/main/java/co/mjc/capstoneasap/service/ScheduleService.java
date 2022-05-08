@@ -31,6 +31,7 @@ public class ScheduleService {
 
     ScheduleRepository scheduleRepository;
 
+    // 필요없는데 혹시몰라서 DB 쓰면 필요할지도?
     public ScheduleService(ScheduleRepository scheduleRepository) {
         this.scheduleRepository = scheduleRepository;
     }
@@ -108,7 +109,7 @@ public class ScheduleService {
         selectDate.setOnClickListener(view -> {
             PopupMenu popup = new PopupMenu(context, view);
             popup.getMenuInflater().inflate(R.menu.datepopup_schedule, popup.getMenu());
-            // 요일을 선택하면 그에 맞게 Date 는 select 됨.
+            // 요일을 선택하면 그에 맞게 Date 는 select 됨. 수정필요 5.8
             popup.setOnMenuItemClickListener(menuItem -> {
                 switch (menuItem.getItemId()) {
                     case R.id.dateMon:
@@ -165,11 +166,6 @@ public class ScheduleService {
                         "강의가 추가 완료되었습니다.", Toast.LENGTH_LONG).show();
                 loginMember.getScheduleArrayList().add(schedule);
 
-                // 이 라인 수정 필요
-//                camera.setImageResource(R.drawable.cameraicon);
-//                folder.setImageResource(R.drawable.foldericon);
-//                loginMember.getCameraDataList().add();
-//                loginMember.getCameraDataList().add();
                 adapter.notifyDataSetChanged();
                 // dismiss
                 dialog.dismiss();

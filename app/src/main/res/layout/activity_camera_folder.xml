@@ -6,21 +6,45 @@
     android:layout_height="match_parent"
     tools:context=".CameraFolderActivity">
 
-    <ImageView
-        android:id="@+id/activityCamera_Image"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        tools:ignore="MissingConstraints" />
+    <LinearLayout
+        android:id="@+id/linear1"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="@+id/linear2">
 
-    <TextView
-        android:id="@+id/returnTextView"
+        <androidx.viewpager2.widget.ViewPager2
+            android:id="@+id/view_pager"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            tools:ignore="MissingConstraints" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/linear2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="돌아가기"
-        android:textSize="40sp"
-        android:textStyle="bold"
+        android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent">
+
+        <TextView
+            android:id="@+id/returnLsMain"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="돌아가기"
+            android:textAlignment="center"
+            android:textSize="40sp" />
+
+    </LinearLayout>
+
+
+
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

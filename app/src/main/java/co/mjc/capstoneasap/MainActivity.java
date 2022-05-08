@@ -1,5 +1,7 @@
 package co.mjc.capstoneasap;
 
+import static co.mjc.capstoneasap.LsMainActivity.LogTAG;
+
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -8,6 +10,7 @@ import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Parcelable;
+import android.util.Log;
 import android.view.Menu;
 import android.widget.Button;
 import android.widget.EditText;
@@ -38,15 +41,15 @@ public class MainActivity extends AppCompatActivity {
 
     // 생성자로 DI 주입 Bean 역할
     public MainActivity() {
-        System.out.println("MainActivity Constructor");
+        Log.d(LogTAG,"MainActivity Constructor");
 
         // 없으면 만든다.
         if (memberRepository == null) {
-            System.out.println("MainActivity.memberRepository is null");
+            Log.d(LogTAG,"MainActivity.memberRepository is null");
             memberRepository = new MemoryMemberRepository();
         }
         if (memberService == null) {
-            System.out.println("MainActivity.memberService is null");
+            Log.d(LogTAG,"MainActivity.memberService is null");
             memberService = new MemberService(memberRepository);
         }
     }
@@ -56,7 +59,7 @@ public class MainActivity extends AppCompatActivity {
     @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        System.out.println("Main onCreate");
+        Log.d(LogTAG,"Main onCreate");
         super.onCreate(savedInstanceState);
         // 메인 페이지
         setContentView(R.layout.activity_ns_main);
@@ -72,7 +75,7 @@ public class MainActivity extends AppCompatActivity {
                     Boolean loginAccess = memberService.login(edtId, edtPwd);
                     if (loginAccess) {
                         Member member = memberService.getById(edtId);
-                        System.out.println("MainActivity onCreate memberSchedule Size : " + member.getScheduleArrayList().size());
+                        Log.d(LogTAG,"MainActivity onCreate memberSchedule Size : " + member.getScheduleArrayList().size());
                         // 로그인 성공 시, 화면 전환, 화면 전환하는 클래스는 Intent
                         // 새로운 Intent 를 생성하는데, LsMainActivity 로 인스턴스 생성
                         Intent intent = new Intent(this, LsMainActivity.class);

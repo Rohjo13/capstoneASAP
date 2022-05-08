@@ -17,11 +17,19 @@ public class Member implements Serializable {
     private String memPw;
     private String memMail;
 
-    // 문제있음 객체 배열로 받던 ArrayList로 받던 바꿔야함
-//    Schedule schedule;
     private ArrayList<Schedule> scheduleArrayList;
 
-    private ArrayList<ImageView> cameraDataList;
+    private ArrayList<String> filePaths;
+
+    // 파일 경로 리스트
+    public ArrayList<String> getFilePaths() {
+        return filePaths;
+    }
+
+    public void setFilePaths(ArrayList<String> filePaths) {
+        this.filePaths = filePaths;
+    }
+
     // 그냥 리스트 다 던져버리자
     public ArrayList<Schedule> getScheduleArrayList() {
         return scheduleArrayList;
@@ -31,13 +39,6 @@ public class Member implements Serializable {
         this.scheduleArrayList = scheduleArrayList;
     }
 
-    public ArrayList<ImageView> getCameraDataList() {
-        return cameraDataList;
-    }
-
-    public void setCameraDataList(ArrayList<ImageView> cameraDataList) {
-        this.cameraDataList = cameraDataList;
-    }
 
     public String getMemId() {
         return memId;

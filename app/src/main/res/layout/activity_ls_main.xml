@@ -30,10 +30,6 @@
             android:layout_width="match_parent"
             android:layout_height="2dp"
             android:background="#333333"/>
-<!--            <ListView-->
-<!--                android:id="@+id/lsScheduleListView"-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="match_parent" />-->
         <TableRow
             android:layout_width="match_parent"
             android:layout_height="match_parent" >
@@ -48,7 +44,10 @@
                 android:textSize="32sp"
                 android:textStyle="bold" />
         </TableRow>
-
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:background="#333333"/>
         <TableRow
             android:layout_width="match_parent"
             android:layout_height="match_parent">
@@ -59,21 +58,6 @@
                 android:divider="#333333"
                 android:dividerHeight="2dp" />
         </TableRow>
-
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-            <ImageView
-                android:id="@+id/Pisilhum"
-                android:layout_width="100dp"
-                android:layout_height="100dp"
-                tools:ignore="MissingConstraints" />
-        </TableRow>
-
-        <!--        <ExpandableListView-->
-<!--            android:id="@+id/lsScheduleListViewExpandable"-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="match_parent"/>-->
 
     </LinearLayout>
 </RelativeLayout>
