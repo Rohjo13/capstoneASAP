@@ -189,8 +189,6 @@ public class ScheduleService {
         alertDialogBuilder.setNegativeButton("no", (dialogInterface, i) -> {
             Toast.makeText(context,
                     "삭제가 취소되었습니다.", Toast.LENGTH_LONG).show();
-//            finish(); // 액티비티 종료 우리는 액티비티가 하나이므로, 앱 자체가 종료됨 액티비티가 많으면
-            // 하나의 액티비티만 종료한다.
         });
         AlertDialog alertDialog = alertDialogBuilder.create();
         alertDialog.show();

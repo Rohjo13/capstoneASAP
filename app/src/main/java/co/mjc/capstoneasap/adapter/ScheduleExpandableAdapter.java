@@ -5,9 +5,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
+import android.widget.GridLayout;
 import android.widget.HorizontalScrollView;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 
@@ -70,7 +75,6 @@ public class ScheduleExpandableAdapter extends BaseExpandableListAdapter {
 
     @Override
     public View getGroupView(int i, boolean b, View notView, ViewGroup viewGroup) {
-        System.out.println("getGroupView");
         View view = mLayoutInflater.inflate(R.layout.schedulelistparent, null);
         TextView textView = view.findViewById(R.id.parentLectureName);
         textView.setText(scheduleArrayList.get(i).getLecName());
@@ -81,6 +85,7 @@ public class ScheduleExpandableAdapter extends BaseExpandableListAdapter {
     public View getChildView(int gPos, int cPos, boolean b, View notView, ViewGroup viewGroup) {
         System.out.println("getChildView");
         View view = mLayoutInflater.inflate(R.layout.schedulelistchild, null);
+
         ImageView func = view.findViewById(R.id.func);
         func.setImageResource(imageViews.get(cPos));
         return view;

@@ -105,7 +105,6 @@ public class LsMainActivity extends AppCompatActivity {
         cameraService = new CameraService();
         memberRepository = MainActivity.memberRepository;
         memberService = MainActivity.memberService;
-        // 이미지 뷰는 만든다.
     }
 
 
@@ -133,6 +132,8 @@ public class LsMainActivity extends AppCompatActivity {
 
         // 업데이트
         memberShowDefaultData();
+
+        // 5.8 문제는 요일에 맞게 강의가 보여야 한다는 점
 
 
         // 익스팬더블 리스트 뷰
