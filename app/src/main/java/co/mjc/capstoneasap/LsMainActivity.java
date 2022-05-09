@@ -138,7 +138,7 @@ public class LsMainActivity extends AppCompatActivity {
 
         // 익스팬더블 리스트 뷰
         expandableListView = findViewById(R.id.lsScheduleListExpandable);
-        // 어뎁터 인스턴스 생성
+        // 어뎁터 인스턴스 생성 여기다가 넘겨준게 loginMember 거라 요일별로 저장하려면 다른 것을 넣거나 해야 됌
         scheduleAdapter = new ScheduleExpandableAdapter(getApplicationContext(), loginMember.getScheduleArrayList()
                 , funcImageViewList);
         // 어뎁터 설정
@@ -205,7 +205,7 @@ public class LsMainActivity extends AppCompatActivity {
         // 파일 저장 형식
         String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
         String imageFileName = "JPEG_" + timeStamp + "_";
-        // 내부 저장소 경로
+        // 외부 저장소 경로
         File storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
         // 임시 파일을 만드는데, 형식을 특정 이름으로 저장하고, jpg 파일 형식으로, 내부 저장소 경로로 파일 생성하고,
         File image = File.createTempFile(imageFileName, ".jpg", storageDir);
