@@ -4,3 +4,11 @@
 # 2. 카메라 기능
 # 3. 노트 기능
 # 4. 파일 저장(*.pdf etc)
+
+# All Icon source
+# source : pdfIcon
+# https://www.flaticon.com/authors/freepik
+# source : folderIcon 
+# https://www.flaticon.com/kr/authors/icongeek26
+# source : cameraIcon
+# https://www.flaticon.com/kr/authors/good-ware
