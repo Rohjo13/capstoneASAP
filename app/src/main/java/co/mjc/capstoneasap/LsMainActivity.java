@@ -1,10 +1,14 @@
 package co.mjc.capstoneasap;
 
+import static android.os.Environment.DIRECTORY_DOWNLOADS;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.FileProvider;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
@@ -23,26 +27,20 @@ import android.provider.MediaStore;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.AdapterView;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ExpandableListView;
-import android.widget.ImageView;
-import android.widget.PopupMenu;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.File;
 import java.io.IOException;
-import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
+import co.mjc.capstoneasap.adapter.MainAdapter;
+import co.mjc.capstoneasap.adapter.OnPdfSelectListener;
 import co.mjc.capstoneasap.adapter.ScheduleExpandableAdapter;
 import co.mjc.capstoneasap.dto.Member;
 import co.mjc.capstoneasap.dto.Schedule;
@@ -164,10 +162,14 @@ public class LsMainActivity extends AppCompatActivity {
                 case 1: // 카메라 폴더로 전환
                     memberCameraFolder();
                     break;
+                case 2: // pdf 폴더로 전환
+                    startActivity(new Intent(getApplicationContext(),
+                            PdfFolderActivity.class).putExtra("loginAccess",loginMember));
             }
             return false;
         });
     }
+
 
     // 사진 찍는 메서드 ------------------------------------------------------------------------------
 
@@ -175,10 +177,10 @@ public class LsMainActivity extends AppCompatActivity {
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        if (grantResults[0] == PackageManager.PERMISSION_GRANTED && grantResults[1] == PackageManager.PERMISSION_GRANTED) {
+        if (grantResults[0] == PackageManager.PERMISSION_GRANTED
+                && grantResults[1] == PackageManager.PERMISSION_GRANTED) {
         }
     }
-
 
     // 4번 호출 그 결과(파일 경로 String 여기서 이미지 형식으로 저장하는 것이 아님)를 filePaths 리스트에 넣어서 CameraActivity 에 뿌려줄려고
     @Override
@@ -209,7 +211,6 @@ public class LsMainActivity extends AppCompatActivity {
         File storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
         // 임시 파일을 만드는데, 형식을 특정 이름으로 저장하고, jpg 파일 형식으로, 내부 저장소 경로로 파일 생성하고,
         File image = File.createTempFile(imageFileName, ".jpg", storageDir);
-
         // 이렇게 만들어진 저장경로를 String 에 저장함
         mCurrentPhotoPath = image.getAbsolutePath();
 //        JPEG_20220508_175021_3479621252757571591.jpg
@@ -236,10 +237,8 @@ public class LsMainActivity extends AppCompatActivity {
                         Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
             }
         }
-
         // 카메라 앱으로 넘어가는 인텐트
         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-//        if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
         File photoFile = null;
         try {
             photoFile = createImageFile();
@@ -282,6 +281,7 @@ public class LsMainActivity extends AppCompatActivity {
             funcImageViewList = new ArrayList<>();
             funcImageViewList.add(R.drawable.cameraicon);
             funcImageViewList.add(R.drawable.foldericon);
+            funcImageViewList.add(R.drawable.pdficon);
         }
     }
 
@@ -323,4 +323,5 @@ public class LsMainActivity extends AppCompatActivity {
         // 다시 로그인 화면으로 변환
         startActivity(intent);
     }
+
 }
