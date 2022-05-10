@@ -1,6 +1,7 @@
 package co.mjc.capstoneasap.myexeption;
 
 import android.content.Context;
+import android.util.Log;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -12,7 +13,7 @@ public class HandlerThread implements Thread.UncaughtExceptionHandler {
 
     Context context;
     public HandlerThread(Context context) {
-        System.out.println("난 1등이야 HandlerThread");
+        Log.e("HandlerThread", "Constructor");
         this.context =context;
     }
 
