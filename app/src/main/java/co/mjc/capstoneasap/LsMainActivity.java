@@ -189,6 +189,7 @@ public class LsMainActivity extends AppCompatActivity {
         try {
             switch (requestCode) {
                 case REQUEST_TAKE_PHOTO: {
+                    // 요청코드 결과 값이 OK 면 Paths에 경로 추가
                     if (resultCode == RESULT_OK) {
                         // 파일 경로명 추가
                         filePaths.add(mCurrentPhotoPath);
