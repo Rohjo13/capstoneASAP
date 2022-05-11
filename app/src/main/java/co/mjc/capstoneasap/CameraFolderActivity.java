@@ -48,19 +48,18 @@ public class CameraFolderActivity extends AppCompatActivity {
         loginMember = (Member) intent.getSerializableExtra("loginAccessData");
         // 파일 저장 String 은 loginMember 에 있어서 얻어온다.
         filePaths = loginMember.getFilePaths();
-
         // 카메라 이미지 세팅 경로만 얻어왔으므로, 비트맵으로 전환 해줘야함
         settingCameraImage();
-
         // 뷰페이저 '=. 리스트 뷰와 비슷하나 좌우로 스크롤 하여 볼 수 있다.
         ViewPager2 viewPager = findViewById(R.id.view_pager);
-        ViewpagerAdapter adapter = new ViewpagerAdapter(viewGallery);		// 어댑터 생성. 아이템 리스트를 파라미터로 넣어준다.
+        // 어댑터 생성. 아이템 리스트를 파라미터로 넣어준다.
+        ViewpagerAdapter adapter = new ViewpagerAdapter(viewGallery);
         viewPager.setAdapter(adapter);	// 뷰페이저에 어댑터 등록
         // 찍었던 사진들 끄집어냄
-
         // 다시 lsMain 으로 return
         returnTextView.setOnClickListener(view -> {
-            Intent returnIntent = new Intent(getApplicationContext(), LsMainActivity.class);
+            Intent returnIntent = new Intent(getApplicationContext(),
+                    LsMainActivity.class);
             returnIntent.putExtra("loginAccess", loginMember);
             startActivity(returnIntent);
         });
@@ -75,9 +74,10 @@ public class CameraFolderActivity extends AppCompatActivity {
             File file = new File(filePaths.get(i));
             Bitmap bitmap;
             // 이미지 해독
-            ImageDecoder.Source source = ImageDecoder.createSource(getContentResolver(), Uri.fromFile(file));
+            ImageDecoder.Source source = ImageDecoder.createSource(
+                    getContentResolver(), Uri.fromFile(file));
             try {
-                // 해독된 비트맵이 null 값이 아니면 viewGallery 에 추가함 ViewPager 로 볼 수 있다.
+//      해독된 비트맵이 null 값이 아니면 viewGallery 에 추가 ViewPager 로 볼 수 있다.
                 bitmap = ImageDecoder.decodeBitmap(source);
                 if (bitmap != null) {
                     viewGallery.add(bitmap);

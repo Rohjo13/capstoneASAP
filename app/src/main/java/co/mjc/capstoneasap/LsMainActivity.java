@@ -174,15 +174,17 @@ public class LsMainActivity extends AppCompatActivity {
     // 사진 찍는 메서드 ------------------------------------------------------------------------------
 
     // 카메라로 촬영한 사진의 썸네일을 가져와 이미지뷰에 띄워준다 3번 호출
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        if (grantResults[0] == PackageManager.PERMISSION_GRANTED
-                && grantResults[1] == PackageManager.PERMISSION_GRANTED) {
-        }
-    }
+//    @Override
+//    public void onRequestPermissionsResult(int requestCode, @NonNull String[]
+//                                                   permissions, @NonNull int[] grantResults) {
+//        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+//        if (grantResults[0] == PackageManager.PERMISSION_GRANTED
+//                && grantResults[1] == PackageManager.PERMISSION_GRANTED) {
+//        }
+//    }
 
-    // 4번 호출 그 결과(파일 경로 String 여기서 이미지 형식으로 저장하는 것이 아님)를 filePaths 리스트에 넣어서 CameraActivity 에 뿌려줄려고
+    // 3번 호출 그 결과(파일 경로 String 여기서 이미지 형식으로 저장하는 것이 아님)를
+    // filePaths 리스트에 넣어서 CameraActivity 에 뿌려줄려고
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
         super.onActivityResult(requestCode, resultCode, intent);
@@ -239,7 +241,8 @@ public class LsMainActivity extends AppCompatActivity {
             }
         }
         // 카메라 앱으로 넘어가는 인텐트
-        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        Intent takePictureIntent =
+                new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         File photoFile = null;
         try {
             photoFile = createImageFile();
@@ -247,7 +250,9 @@ public class LsMainActivity extends AppCompatActivity {
         }
         if (photoFile != null) {
             // 사진 파일 경로명 지정
-            Uri photoURI = FileProvider.getUriForFile(this, "co.mjc.capstoneasap.fileprovider", photoFile);
+            Uri photoURI = FileProvider.
+                    getUriForFile(this,
+                            "co.mjc.capstoneasap.fileprovider", photoFile);
             takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
             startActivityForResult(takePictureIntent, REQUEST_TAKE_PHOTO);
         }
@@ -257,7 +262,8 @@ public class LsMainActivity extends AppCompatActivity {
     // 직렬화로 데이터 넘겨서 사진 보여줄려고
     public void memberCameraFolder() {
         // 사진이 들어있는 액티비티로 전환
-        Intent intent = new Intent(this, CameraFolderActivity.class);
+        Intent intent = new Intent(this,
+                CameraFolderActivity.class);
         // 로그인 정보 넘겨주기
         intent.putExtra("loginAccessData", loginMember);
         // 인텐트에서 생성한 LsMainActivity 로 전환한다.

@@ -27,7 +27,8 @@ import co.mjc.capstoneasap.adapter.MainAdapter;
 import co.mjc.capstoneasap.adapter.OnPdfSelectListener;
 import co.mjc.capstoneasap.dto.Member;
 
-public class PdfFolderActivity extends AppCompatActivity implements OnPdfSelectListener {
+public class PdfFolderActivity extends AppCompatActivity
+        implements OnPdfSelectListener {
 
     // pdf 기능에 사용할 거
     private List<File> pdfList;
@@ -69,14 +70,16 @@ public class PdfFolderActivity extends AppCompatActivity implements OnPdfSelectL
     public void pdfActivate() {
         recyclerView = findViewById(R.id.pdfRecyclerView);
         recyclerView.setHasFixedSize(true);
-        recyclerView.setLayoutManager(new GridLayoutManager(this, 3));
+        recyclerView.setLayoutManager(new GridLayoutManager(
+                this, 3));
         pdfList = new ArrayList<>();
         // 파일 경로
         Log.e("FILE", externalFilesDir.toString());
         // .pdf 만을 걸러서 추가
         pdfList.addAll(findPdf(externalFilesDir));
         // 어답터 인스턴스 생성
-        adapter = new MainAdapter(this, pdfList, this);
+        adapter = new MainAdapter(this, pdfList,
+                this);
         // 어답터 set
         recyclerView.setAdapter(adapter);
     }
@@ -85,25 +88,22 @@ public class PdfFolderActivity extends AppCompatActivity implements OnPdfSelectL
     @Override
     public void onPdfSelected(File file) {
         // PDFViewer 로 인텐트 전환
-        startActivity(new Intent(getApplicationContext(), PdfActivity.class).putExtra("path", file.getAbsoluteFile()));
+        startActivity(new Intent(getApplicationContext(),
+                PdfActivity.class).putExtra("path", file.getAbsoluteFile()));
     }
 
     // 다운로드 파일에서 pdf 걸러서 찾아준다.
     // 현재 절대경로는 찾았지만 파일을 찾을 수 없다.
     public ArrayList<File> findPdf(File file) {
         ArrayList<File> arrayList = new ArrayList<>();
-
         // 절대 경로
         String PATH = file.getAbsolutePath()+"/";
         // 경로 체크
-        Log.e("Info",PATH);
-
+        Log.e("PdfFolderActivity Info",PATH);
         // 파일 생성
         File orienFile = new File(PATH);
-
-        // 해당 파일
+        // 해당 파일 현재는 파일이 없으므로, 아무것도 표시되지 않는다.
         File[] files = orienFile.listFiles();
-
         Log.e("Info", String.valueOf(orienFile.list().length));
 
         // 파일의 이름에서 얻어온 이름에 마지막이 .pdf 일 경우 List에 추가
@@ -113,7 +113,6 @@ public class PdfFolderActivity extends AppCompatActivity implements OnPdfSelectL
                 arrayList.add(singleFile);
             }
         }
-
         return arrayList;
     }
 
