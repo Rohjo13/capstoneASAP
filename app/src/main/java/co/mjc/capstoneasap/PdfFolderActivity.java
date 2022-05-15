@@ -34,7 +34,7 @@ public class PdfFolderActivity extends AppCompatActivity
     private List<File> pdfList;
     private MainAdapter adapter;
     private RecyclerView recyclerView;
-
+    // 아
     TextView return_lsMain;
 
     Intent intent;
