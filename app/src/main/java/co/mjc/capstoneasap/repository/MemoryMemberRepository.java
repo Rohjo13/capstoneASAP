@@ -2,6 +2,7 @@ package co.mjc.capstoneasap.repository;
 
 import android.net.Uri;
 import android.os.Build;
+import android.util.Log;
 import android.widget.ImageView;
 
 import androidx.annotation.RequiresApi;
@@ -27,6 +28,7 @@ public class MemoryMemberRepository implements MemberRepository {
         // 얘만 필요하다.
         dbMap = new HashMap<>();
 
+        Log.e("MemoryMemberRepository", "Constructor");
         // 이하 필요없음
         ArrayList<Schedule> arrayList = new ArrayList();
         // default ID -> 로그인 기능 체크 Test로 만들어서 사용하지 않았음

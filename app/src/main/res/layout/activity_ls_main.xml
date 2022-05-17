@@ -17,11 +17,12 @@
             android:layout_height="match_parent" >
 
             <TextView
-                android:id="@+id/dayofweek"
+                android:id="@+id/loginData"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="null"
-                android:textAlignment="viewStart"
+                android:layout_weight="0.5"
+                android:text="nullname"
+                android:textAlignment="center"
                 android:textSize="32sp"
                 android:textStyle="bold" />
 
@@ -35,12 +36,11 @@
             android:layout_height="match_parent" >
 
             <TextView
-                android:id="@+id/loginData"
+                android:id="@+id/dayofweek"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="0.5"
-                android:text="nullname"
-                android:textAlignment="viewStart"
+                android:text="null"
+                android:textAlignment="center"
                 android:textSize="32sp"
                 android:textStyle="bold" />
         </TableRow>

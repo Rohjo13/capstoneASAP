@@ -3,7 +3,7 @@ package co.mjc.capstoneasap.service;
 
 // CameraService -> MemberService -> save
 // 지금 사용 안함
-//@Deprecated
+@Deprecated
 public class CameraService {
 
 

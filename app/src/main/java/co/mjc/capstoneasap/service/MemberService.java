@@ -57,7 +57,7 @@ public class MemberService extends AppCompatActivity {
     public Member logout(Context context,Member loginMember) {
         Intent intent = new Intent(context, MainActivity.class);
         // 로그인한 멤버는 이제 없음
-        loginMember = null;
+//        loginMember = null;
         // 다시 로그인 화면으로 변환
         startActivity(intent);
         return null;
