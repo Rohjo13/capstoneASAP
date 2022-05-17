@@ -1,5 +1,6 @@
 package co.mjc.capstoneasap.repository;
 
+import android.net.Uri;
 import android.os.Build;
 import android.widget.ImageView;
 
@@ -12,6 +13,7 @@ import java.util.Map;
 import java.util.Optional;
 
 import co.mjc.capstoneasap.dto.Member;
+import co.mjc.capstoneasap.dto.PdfData;
 import co.mjc.capstoneasap.dto.Schedule;
 import co.mjc.capstoneasap.dto.ScheduleEnum;
 
@@ -38,11 +40,11 @@ public class MemoryMemberRepository implements MemberRepository {
         // list도 default로 만들어서 줬음
         member.setScheduleArrayList(arrayList);
         ArrayList<String> filePaths = new ArrayList<>();
-
+        ArrayList<PdfData> pdfDataArrayList = new ArrayList<>();
         member.getScheduleArrayList().add(schedule);
         member.setScheduleArrayList(arrayList);
         member.setFilePaths(filePaths);
-
+        member.setPdfDataArrayList(pdfDataArrayList);
         dbMap.put(member.getMemId(), member);
     }
 

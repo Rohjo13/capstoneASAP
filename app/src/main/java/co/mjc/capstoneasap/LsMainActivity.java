@@ -27,6 +27,7 @@ import android.provider.MediaStore;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ExpandableListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -173,16 +174,6 @@ public class LsMainActivity extends AppCompatActivity {
 
     // 사진 찍는 메서드 ------------------------------------------------------------------------------
 
-    // 카메라로 촬영한 사진의 썸네일을 가져와 이미지뷰에 띄워준다 3번 호출
-//    @Override
-//    public void onRequestPermissionsResult(int requestCode, @NonNull String[]
-//                                                   permissions, @NonNull int[] grantResults) {
-//        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-//        if (grantResults[0] == PackageManager.PERMISSION_GRANTED
-//                && grantResults[1] == PackageManager.PERMISSION_GRANTED) {
-//        }
-//    }
-
     // 3번 호출 그 결과(파일 경로 String 여기서 이미지 형식으로 저장하는 것이 아님)를
     // filePaths 리스트에 넣어서 CameraActivity 에 뿌려줄려고
     @Override
@@ -220,7 +211,6 @@ public class LsMainActivity extends AppCompatActivity {
         Log.d(LogTAG, "현재 경로는 다음과 같습니다 : "+mCurrentPhotoPath);
         return image;
     }
-
 
     // 1번 호출
     private void takeAPicture() {
@@ -326,7 +316,7 @@ public class LsMainActivity extends AppCompatActivity {
     public void logout() {
         Intent intent = new Intent(this, MainActivity.class);
         // 로그인한 멤버는 이제 없음
-        loginMember = null;
+        intent.putExtra("data", loginMember);
         // 다시 로그인 화면으로 변환
         startActivity(intent);
     }

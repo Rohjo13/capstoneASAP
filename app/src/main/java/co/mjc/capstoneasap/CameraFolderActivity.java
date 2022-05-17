@@ -7,10 +7,12 @@ import androidx.viewpager2.widget.ViewPager2;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.ImageDecoder;
+import android.graphics.drawable.AnimationDrawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import java.io.File;
@@ -34,6 +36,9 @@ public class CameraFolderActivity extends AppCompatActivity {
 
     // 원래 액티비티로 돌아가는 텍스트뷰 클릭
     TextView returnTextView;
+
+    // 이미지 버튼
+    ImageButton imageButton;
 
     @RequiresApi(api = Build.VERSION_CODES.P)
     @Override
@@ -63,6 +68,12 @@ public class CameraFolderActivity extends AppCompatActivity {
             returnIntent.putExtra("loginAccess", loginMember);
             startActivity(returnIntent);
         });
+
+//        imageButton = findViewById(R.id.imageScroll);
+//        AnimationDrawable animationDrawable = (AnimationDrawable) imageButton.getBackground();
+//        animationDrawable.setEnterFadeDuration(500);
+//        animationDrawable.setExitFadeDuration(500);
+//        animationDrawable.start();
     }
 
     // bitmap 으로 변환하는 메서드

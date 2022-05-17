@@ -1,18 +1,16 @@
 package co.mjc.capstoneasap.adapter;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.GridLayout;
-import android.widget.HorizontalScrollView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 
@@ -75,7 +73,7 @@ public class ScheduleExpandableAdapter extends BaseExpandableListAdapter {
 
     @Override
     public View getGroupView(int i, boolean b, View notView, ViewGroup viewGroup) {
-        View view = mLayoutInflater.inflate(R.layout.schedulelistparent, null);
+        View view = mLayoutInflater.inflate(R.layout.schedule_list_parent, null);
         TextView textView = view.findViewById(R.id.parentLectureName);
         textView.setText(scheduleArrayList.get(i).getLecName());
         return view;
@@ -84,8 +82,7 @@ public class ScheduleExpandableAdapter extends BaseExpandableListAdapter {
     @Override
     public View getChildView(int gPos, int cPos, boolean b, View notView, ViewGroup viewGroup) {
         System.out.println("getChildView");
-        View view = mLayoutInflater.inflate(R.layout.schedulelistchild, null);
-
+        View view = mLayoutInflater.inflate(R.layout.schedule_list_child, null);
         ImageView func = view.findViewById(R.id.func);
         func.setImageResource(imageViews.get(cPos));
         return view;

@@ -2,6 +2,7 @@ package co.mjc.capstoneasap.dto;
 
 
 import android.media.Image;
+import android.net.Uri;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.widget.ImageView;
@@ -21,7 +22,17 @@ public class Member implements Serializable {
 
     private ArrayList<String> filePaths;
 
-    // 파일 경로 리스트
+    private ArrayList<PdfData> pdfDataArrayList;
+
+    public ArrayList<PdfData> getPdfDataArrayList() {
+        return pdfDataArrayList;
+    }
+
+    public void setPdfDataArrayList(ArrayList<PdfData> pdfDataArrayList) {
+        this.pdfDataArrayList = pdfDataArrayList;
+    }
+
+    // 카메라 경로 리스트
     public ArrayList<String> getFilePaths() {
         return filePaths;
     }

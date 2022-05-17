@@ -5,12 +5,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import java.util.BitSet;
 import java.util.List;
 
 import co.mjc.capstoneasap.R;
@@ -26,7 +24,7 @@ public class ViewpagerAdapter extends RecyclerView.Adapter<ViewpagerAdapter.View
     @NonNull
     @Override
     public ViewpagerAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.galleriesview_item, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.galleries_view_item, parent, false);
         return new ViewHolder(view);
     }
 
