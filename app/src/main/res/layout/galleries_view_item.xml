@@ -6,12 +6,18 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <ImageView
+<!--    <ImageView-->
+<!--        android:id="@+id/galleriesImage"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="match_parent"-->
+<!--        tools:ignore="MissingConstraints">-->
+<!--    </ImageView>-->
+    <com.github.chrisbanes.photoview.PhotoView
         android:id="@+id/galleriesImage"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:ignore="MissingConstraints">
-    </ImageView>
+
+        />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

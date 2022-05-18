@@ -287,8 +287,7 @@ public class LsMainActivity extends AppCompatActivity {
         startActivity(intent);
     }
     // 여기까지가 카메라 기능 ------------------------------------------------------------------------------
-
-
+    
     // 멤버가 가지고 있는 Data 를 화면에 뿌림 (현재 안됨 5.5)
     public void memberShowDefaultData() {
         Log.d(LogTAG, "memberShowDefaultData()");
