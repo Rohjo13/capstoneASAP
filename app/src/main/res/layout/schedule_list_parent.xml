@@ -5,7 +5,6 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-
     <!--    프로그래밍 랭귀지스~~~ 의 이름들-->
     <TextView
         android:id="@+id/parentLectureName"
@@ -16,7 +15,14 @@
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:textSize="30sp"
         android:textStyle="bold" />
-
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="강의 요일"
+        android:textSize="15sp"
+        android:layout_marginTop="3dp"
+        android:layout_marginLeft="30dp"
+        android:id="@+id/scheduleDate"/>
 
 
 </LinearLayout>

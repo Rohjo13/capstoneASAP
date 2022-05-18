@@ -40,7 +40,6 @@ public class MainAdapter extends RecyclerView.Adapter<MainViewHolder> {
     public void onBindViewHolder(@NonNull MainViewHolder holder, @SuppressLint("RecyclerView") int position) {
         holder.txtName.setText(pdfFiles.get(position).getPdfName());
         holder.txtName.setSelected(true);
-
         holder.cardView.setOnClickListener(view ->
                 // Uri 병렬화라서 직렬화 가능한 String 으로 바꾼다음에 다시 Uri 로 변환했음
                 listener.onPdfSelected(Uri.parse(pdfFiles.get(position).getPdfUri())));

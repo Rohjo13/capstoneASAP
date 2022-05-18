@@ -13,7 +13,7 @@ import java.util.List;
 
 import co.mjc.capstoneasap.R;
 
-public class ViewpagerAdapter extends RecyclerView.Adapter<ViewpagerAdapter.ViewHolder>{
+public class ViewpagerAdapter extends RecyclerView.Adapter<ViewpagerAdapter.ViewHolder> {
 
     private List<Bitmap> Items;
 
@@ -40,6 +40,7 @@ public class ViewpagerAdapter extends RecyclerView.Adapter<ViewpagerAdapter.View
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         ImageView imageView;
+
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             imageView = itemView.findViewById(R.id.galleriesImage);

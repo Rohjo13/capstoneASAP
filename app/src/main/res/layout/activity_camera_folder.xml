@@ -8,54 +8,45 @@
 <!--    android:background="@color/black"-->
 
     <LinearLayout
-        android:id="@+id/linear1"
+        android:id="@+id/linear2"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="@+id/linear2">
+        android:background="@color/black">
+
+        <ImageView
+            android:src="@drawable/returnicon"
+            android:id="@+id/returnLsMain"
+            android:layout_width="50dp"
+            android:layout_height="50dp"/>
+
+
+        <!--            android:textColor="@color/white"-->
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/linear1"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="50dp"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linear2">
 
         <androidx.viewpager2.widget.ViewPager2
+            android:background="@color/black"
             android:id="@+id/view_pager"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="horizontal"
             tools:ignore="MissingConstraints" />
     </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/linear2"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
-
-<!--        <ImageButton-->
-<!--            android:layout_width="50dp"-->
-<!--            android:layout_height="50dp"-->
-<!--            android:background="@drawable/swipeanim"-->
-<!--            android:layout_gravity="center"-->
-<!--            android:id="@+id/imageScroll"-->
-<!--            />-->
-
-
-        <TextView
-            android:id="@+id/returnLsMain"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="돌아가기"
-            android:textAlignment="center"
-            android:textSize="40sp" />
-<!--            android:textColor="@color/white"-->
-
-    </LinearLayout>
-
-
-
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

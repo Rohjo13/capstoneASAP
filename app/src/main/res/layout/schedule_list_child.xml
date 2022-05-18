@@ -9,5 +9,7 @@
         <ImageView
             android:id="@+id/func"
             android:layout_width="100dp"
-            android:layout_height="100dp" />
+            android:layout_height="100dp"
+            android:layout_marginLeft="6dp"/>
+
 </LinearLayout>

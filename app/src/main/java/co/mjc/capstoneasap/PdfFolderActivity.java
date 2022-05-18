@@ -42,7 +42,8 @@ public class PdfFolderActivity extends AppCompatActivity
     private RecyclerView recyclerView;
     static final int REQUEST_TAKE_FILE = 2;
     // 아
-    TextView return_lsMain;
+//    TextView return_lsMain;
+    ImageView return_lsMain;
 
     Intent intent;
     Member loginMember;

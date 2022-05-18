@@ -8,6 +8,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.FileProvider;
 import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.Manifest;
@@ -25,10 +26,14 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ExpandableListView;
+import android.widget.ImageView;
+import android.widget.ListAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -40,6 +45,8 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 
+import co.mjc.capstoneasap.adapter.ChildHolder;
+import co.mjc.capstoneasap.adapter.ExpandableChildAdapter;
 import co.mjc.capstoneasap.adapter.MainAdapter;
 import co.mjc.capstoneasap.adapter.OnPdfSelectListener;
 import co.mjc.capstoneasap.adapter.ScheduleExpandableAdapter;
@@ -83,7 +90,8 @@ public class LsMainActivity extends AppCompatActivity {
     // 익스팬더블 리스트뷰 && 어댑터
     ExpandableListView expandableListView;
     ScheduleExpandableAdapter scheduleAdapter;
-
+    ChildHolder childHolder;
+    View goToAdapterView;
     // 로그인 한 회원을 알아야 한다.
     ScheduleRepository scheduleRepository;
     ScheduleService scheduleService;
@@ -122,7 +130,7 @@ public class LsMainActivity extends AppCompatActivity {
         dayOfWeek = findViewById(R.id.dayofweek);
         dayOfWeek.setText(scheduleService.dateCheck());
         // 회원님 아이디 (hashMap에 default 로 들어가 있는 값이 id : 123 pwd : 123)
-        loginData.setText("반갑습니다. : " + loginMember.getMemId() + "님");
+        loginData.setText(loginMember.getMemId() + "님");
         // Member 안에 있는 Schedule 을 끄집어 낼려고 CameraData 도 끄집어낼거임
         // 참고로 MemberRepository 에 내장해서 저장해놨음
         scheduleList = loginMember.getScheduleArrayList();
@@ -132,14 +140,36 @@ public class LsMainActivity extends AppCompatActivity {
         // 업데이트
         memberShowDefaultData();
 
-        // 5.8 문제는 요일에 맞게 강의가 보여야 한다는 점
+        // 5.18 실험실 on
+        goToAdapterView = null;
+        childHolder = null;
+        if (childHolder == null) {
+            LayoutInflater inflater = (LayoutInflater) getApplicationContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            goToAdapterView = inflater.inflate(R.layout.schedule_list_child_item_group, null, false);
+            childHolder = new ChildHolder();
+            // View 에 Tag 를 달아 식별한다.
+            goToAdapterView.setTag(childHolder);
+        }
+        else {
+            childHolder = (ChildHolder) goToAdapterView.getTag();
+        }
+        childHolder.horizontalListView = (RecyclerView) goToAdapterView.findViewById(R.id.child_group);
+        LinearLayoutManager linearLayoutManager = new
+                LinearLayoutManager(getApplicationContext(), LinearLayoutManager.HORIZONTAL, false);
 
+        childHolder.horizontalListView.setLayoutManager(linearLayoutManager);
+
+        ExpandableChildAdapter adapter = new ExpandableChildAdapter(getApplicationContext(), funcImageViewList);
+        childHolder.horizontalListView.setAdapter(adapter);
+        // 실험실 off
 
         // 익스팬더블 리스트 뷰
         expandableListView = findViewById(R.id.lsScheduleListExpandable);
+//        expandableListView.setLayoutDirection(View.LAYOUT_DIRECTION_RTL);
+//        expandableListView.layout
         // 어뎁터 인스턴스 생성 여기다가 넘겨준게 loginMember 거라 요일별로 저장하려면 다른 것을 넣거나 해야 됌
-        scheduleAdapter = new ScheduleExpandableAdapter(getApplicationContext(), loginMember.getScheduleArrayList()
-                , funcImageViewList);
+        scheduleAdapter = new ScheduleExpandableAdapter(getApplicationContext(),childHolder,loginMember.getScheduleArrayList()
+                , funcImageViewList,goToAdapterView);
         // 어뎁터 설정
         expandableListView.setAdapter(scheduleAdapter);
 
@@ -150,13 +180,12 @@ public class LsMainActivity extends AppCompatActivity {
         expandableListView.setOnGroupClickListener((expandableListView, view, gPos, l) -> {
             System.out.println("onGroupClick");
             Toast.makeText(getApplicationContext(), scheduleList.get(gPos).getLecName() +
-                    "를 선택하셨습니다.", Toast.LENGTH_LONG).show();
+                    "를 선택하셨습니다.", Toast.LENGTH_SHORT).show();
             return false;
         });
-
-        // 눌린 스케쥴의 자식을 누른다면 해당 기능 실행
-        expandableListView.setOnChildClickListener((expandableListView, view, gPos, cPos, l) -> {
-            switch (cPos) {
+        // 좀 수정, Recycler 는 Click 을 Main 으로 빼기 힘들어서 adapter 를 밖으로 뺏음
+        adapter.setOnItemClick((v, pos) -> {
+            switch (pos) {
                 case 0: // 0은 카메라
                     takeAPicture();
                     break;
@@ -167,10 +196,8 @@ public class LsMainActivity extends AppCompatActivity {
                     startActivity(new Intent(getApplicationContext(),
                             PdfFolderActivity.class).putExtra("loginAccess",loginMember));
             }
-            return false;
         });
     }
-
 
     // 사진 찍는 메서드 ------------------------------------------------------------------------------
 
@@ -279,6 +306,7 @@ public class LsMainActivity extends AppCompatActivity {
             funcImageViewList.add(R.drawable.cameraicon);
             funcImageViewList.add(R.drawable.foldericon);
             funcImageViewList.add(R.drawable.pdficon);
+            funcImageViewList.add(R.drawable.notesicon);
         }
     }
 
@@ -320,5 +348,4 @@ public class LsMainActivity extends AppCompatActivity {
         // 다시 로그인 화면으로 변환
         startActivity(intent);
     }
-
 }

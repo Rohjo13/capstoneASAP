@@ -37,7 +37,7 @@ public class MemoryMemberRepository implements MemberRepository {
         member.setMemMail("123@123.com");
         member.setMemPw("123");
         Schedule schedule = new Schedule();
-        schedule.setDayOTW(ScheduleEnum.TUESDAY);
+        schedule.setDayOTW(ScheduleEnum.THURSDAY);
         schedule.setLecName("자바기술캡스톤디자인");
         // list도 default로 만들어서 줬음
         member.setScheduleArrayList(arrayList);
