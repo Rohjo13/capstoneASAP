@@ -25,11 +25,30 @@
                 android:id="@+id/loginData"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:layout_marginTop="6dp"
                 android:layout_weight="0.5"
                 android:text="nullname"
-                android:textSize="32sp"
+                android:textSize="30sp"
                 android:textStyle="bold"
-                android:layout_marginLeft="10dp"/>
+                android:layout_marginLeft="16dp"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="4dp"
+                android:layout_weight="0.8"
+                android:text="|"
+                android:textSize="32sp"/>
+            <TextView
+                android:id="@+id/dayofweek"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="6dp"
+                android:layout_marginRight="12dp"
+                android:layout_weight="0.5"
+                android:text="day"
+                android:textSize="30sp"
+                android:textStyle="bold"
+                android:gravity="right"/>
 <!--                android:textAlignment="center"-->
 
         </TableRow>
@@ -42,14 +61,16 @@
             android:layout_height="match_parent" >
 
             <TextView
-                android:id="@+id/dayofweek"
+                android:id="@+id/clock"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="null"
+                android:layout_marginTop="2dp"
+                android:layout_marginBottom="2dp"
+                android:text="00:00:00"
                 android:textColor="@color/white"
                 android:background="#333333"
                 android:textAlignment="center"
-                android:textSize="32sp"
+                android:textSize="14sp"
                 android:textStyle="bold" />
         </TableRow>
         <View
