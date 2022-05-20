@@ -24,6 +24,8 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.Handler;
+import android.os.Message;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -41,6 +43,7 @@ import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
@@ -77,6 +80,9 @@ public class LsMainActivity extends AppCompatActivity {
     TextView dayOfWeek;
     // 로그인 한 사람 아이디
     TextView loginData;
+    // 실시간 시간
+    TextView clockTextView;
+    private static Handler mHanlder;
 
 
     // 이건 schedule 에 있는거고
@@ -105,7 +111,6 @@ public class LsMainActivity extends AppCompatActivity {
     public LsMainActivity() {
         Log.d(LogTAG, "LsMainAc Constructor");
         handlerThread = new HandlerThread(this);
-
 
         scheduleRepository = new MemoryScheduleRepository();
         scheduleService = new ScheduleService(scheduleRepository);
@@ -162,6 +167,38 @@ public class LsMainActivity extends AppCompatActivity {
         ExpandableChildAdapter adapter = new ExpandableChildAdapter(getApplicationContext(), funcImageViewList);
         childHolder.horizontalListView.setAdapter(adapter);
         // 실험실 off
+        //5.19 실시간
+        clockTextView = findViewById(R.id.clock);
+        mHanlder = new Handler(){
+            @Override
+            public void handleMessage(@NonNull Message msg) {
+                Calendar cal = Calendar.getInstance();
+                SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
+                String strTime = sdf.format(cal.getTime());
+
+                clockTextView = findViewById(R.id.clock);
+                clockTextView.setText(strTime);
+            }
+        };
+
+        class NewRunnable implements Runnable {
+            @Override
+            public void run() {
+                while (true) {
+                    try {
+                        Thread.sleep(1000);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                    mHanlder.sendEmptyMessage(0);
+                }
+            }
+        }
+        NewRunnable nr = new NewRunnable();
+        Thread t = new Thread(nr);
+        t.start();
+
+        //5.19 실시간
 
         // 익스팬더블 리스트 뷰
         expandableListView = findViewById(R.id.lsScheduleListExpandable);
