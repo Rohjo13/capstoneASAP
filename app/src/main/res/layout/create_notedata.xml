@@ -29,7 +29,7 @@
                 android:background="#dddddd"
                 android:fontFamily="@font/nanumsquareroundb"
                 android:gravity="center"
-                android:text="노트 이름"
+                android:text="제목"
                 android:textAlignment="center"
                 android:textSize="20sp" />
 
@@ -70,7 +70,6 @@
                 android:text="Cancel"
                 android:textAllCaps="false"
                 android:textColor="@color/white" />
-
         </TableRow>
     </LinearLayout>
 
