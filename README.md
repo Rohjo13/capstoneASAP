@@ -16,3 +16,5 @@
 # https://www.flaticon.com/authors/freepik
 # source : scrollImage
 # https://www.flaticon.com/authors/pixel-perfect
+# source : trashBinIcon
+# https://www.flaticon.com/authors/freepik
