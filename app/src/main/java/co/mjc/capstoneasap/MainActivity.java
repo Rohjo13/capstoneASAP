@@ -63,6 +63,10 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         // 메인 페이지
         setContentView(R.layout.activity_ns_main);
+
+
+        // memberR 에서 123멤버를 만들었음
+        memberRepository.set123Member();
         // login Button
         btn_login = findViewById(R.id.btn_login);
         // Login Logic

@@ -69,7 +69,8 @@ public class CameraFolderActivity extends AppCompatActivity {
         viewPager.setAdapter(adapter);    // 뷰페이저에 어댑터 등록
         // 찍었던 사진들 끄집어냄
         // 다시 lsMain 으로 return
-        returnImageView.setColorFilter(Color.parseColor("#ffffff"));
+        // 하얀색으로 색 반전
+//        returnImageView.setColorFilter(Color.parseColor("#ffffff"));
         returnImageView.setOnClickListener(view -> {
             Intent returnIntent = new Intent(getApplicationContext(),
                     LsMainActivity.class);

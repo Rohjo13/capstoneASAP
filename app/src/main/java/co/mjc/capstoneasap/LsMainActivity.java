@@ -1,25 +1,17 @@
 package co.mjc.capstoneasap;
 
-import static android.os.Environment.DIRECTORY_DOWNLOADS;
-
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.FileProvider;
-import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
-import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.graphics.Bitmap;
-import android.graphics.Color;
-import android.graphics.ImageDecoder;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -32,10 +24,7 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ExpandableListView;
-import android.widget.ImageView;
-import android.widget.ListAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -44,21 +33,16 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 
 import co.mjc.capstoneasap.adapter.ChildHolder;
 import co.mjc.capstoneasap.adapter.ExpandableChildAdapter;
-import co.mjc.capstoneasap.adapter.MainAdapter;
-import co.mjc.capstoneasap.adapter.OnPdfSelectListener;
 import co.mjc.capstoneasap.adapter.ScheduleExpandableAdapter;
 import co.mjc.capstoneasap.dto.Member;
 import co.mjc.capstoneasap.dto.Schedule;
-import co.mjc.capstoneasap.dto.ScheduleEnum;
 import co.mjc.capstoneasap.myexeption.HandlerThread;
 import co.mjc.capstoneasap.repository.MemberRepository;
-import co.mjc.capstoneasap.repository.MemoryMemberRepository;
 import co.mjc.capstoneasap.repository.MemoryScheduleRepository;
 import co.mjc.capstoneasap.repository.ScheduleRepository;
 import co.mjc.capstoneasap.service.CameraService;
@@ -167,6 +151,7 @@ public class LsMainActivity extends AppCompatActivity {
         ExpandableChildAdapter adapter = new ExpandableChildAdapter(getApplicationContext(), funcImageViewList);
         childHolder.horizontalListView.setAdapter(adapter);
         // 실험실 off
+
         //5.19 실시간
         clockTextView = findViewById(R.id.clock);
         mHanlder = new Handler(){
@@ -175,7 +160,6 @@ public class LsMainActivity extends AppCompatActivity {
                 Calendar cal = Calendar.getInstance();
                 SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
                 String strTime = sdf.format(cal.getTime());
-
                 clockTextView = findViewById(R.id.clock);
                 clockTextView.setText(strTime);
             }
@@ -197,7 +181,6 @@ public class LsMainActivity extends AppCompatActivity {
         NewRunnable nr = new NewRunnable();
         Thread t = new Thread(nr);
         t.start();
-
         //5.19 실시간
 
         // 익스팬더블 리스트 뷰
@@ -205,7 +188,8 @@ public class LsMainActivity extends AppCompatActivity {
 //        expandableListView.setLayoutDirection(View.LAYOUT_DIRECTION_RTL);
 //        expandableListView.layout
         // 어뎁터 인스턴스 생성 여기다가 넘겨준게 loginMember 거라 요일별로 저장하려면 다른 것을 넣거나 해야 됌
-        scheduleAdapter = new ScheduleExpandableAdapter(getApplicationContext(),childHolder,loginMember.getScheduleArrayList()
+        scheduleAdapter = new ScheduleExpandableAdapter(getApplicationContext(),
+                childHolder,loginMember.getScheduleArrayList()
                 , funcImageViewList,goToAdapterView);
         // 어뎁터 설정
         expandableListView.setAdapter(scheduleAdapter);
@@ -232,6 +216,11 @@ public class LsMainActivity extends AppCompatActivity {
                 case 2: // pdf 폴더로 전환
                     startActivity(new Intent(getApplicationContext(),
                             PdfFolderActivity.class).putExtra("loginAccess",loginMember));
+                    break;
+                case 3:
+                    startActivity(new Intent(getApplicationContext(),
+                            NoteFolderActivity.class).putExtra("loginAccess",loginMember));
+                    break;
             }
         });
     }

@@ -1,11 +1,6 @@
 package co.mjc.capstoneasap;
 
-import static android.os.Environment.DIRECTORY_DOWNLOADS;
-import static android.os.Environment.getExternalStorageDirectory;
-import static android.os.Environment.getExternalStoragePublicDirectory;
-
 import androidx.annotation.Nullable;
-import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -13,22 +8,17 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.OpenableColumns;
 import android.util.Log;
-import android.view.View;
 import android.widget.ImageView;
-import android.widget.TextView;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
-import co.mjc.capstoneasap.adapter.MainAdapter;
+import co.mjc.capstoneasap.adapter.PdfAdapter;
 import co.mjc.capstoneasap.adapter.OnPdfSelectListener;
 import co.mjc.capstoneasap.dto.Member;
 import co.mjc.capstoneasap.dto.PdfData;
@@ -38,7 +28,7 @@ public class PdfFolderActivity extends AppCompatActivity
 
     // pdf 기능에 사용할 거
     private List<PdfData> pdfList;
-    private MainAdapter adapter;
+    private PdfAdapter adapter;
     private RecyclerView recyclerView;
     static final int REQUEST_TAKE_FILE = 2;
     // 아
@@ -142,7 +132,7 @@ public class PdfFolderActivity extends AppCompatActivity
                 this, 2));
         // 파일 경로
         // 어답터 인스턴스 생성
-        adapter = new MainAdapter(this, pdfList,
+        adapter = new PdfAdapter(this, pdfList,
                 this);
         // 어답터 set
         recyclerView.setAdapter(adapter);

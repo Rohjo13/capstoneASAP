@@ -24,6 +24,17 @@ public class Member implements Serializable {
 
     private ArrayList<PdfData> pdfDataArrayList;
 
+    private ArrayList<NoteData> noteDataArrayList;
+
+
+    public ArrayList<NoteData> getNoteDataArrayList() {
+        return noteDataArrayList;
+    }
+
+    public void setNoteDataArrayList(ArrayList<NoteData> noteDataArrayList) {
+        this.noteDataArrayList = noteDataArrayList;
+    }
+
     public ArrayList<PdfData> getPdfDataArrayList() {
         return pdfDataArrayList;
     }

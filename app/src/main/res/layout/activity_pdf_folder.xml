@@ -49,17 +49,19 @@
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:src="@drawable/returnicon"
-            android:layout_marginRight="10dp"/>
-<!--        <View-->
-<!--            android:layout_width="2dp"-->
-<!--            android:layout_height="match_parent"-->
-<!--            android:background="#333333"/>-->
+            android:layout_marginRight="1dp"/>
         <ImageView
             android:id="@+id/importPdf"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:src="@drawable/importicon"
             android:layout_marginLeft="5dp"/>
+
+        <ImageView
+            android:src="@drawable/trashbinicon"
+            android:id="@+id/trashPdf"
+            android:layout_width="50dp"
+            android:layout_height="50dp"/>
 
 
     </LinearLayout>

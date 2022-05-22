@@ -14,6 +14,7 @@ import java.util.Map;
 import java.util.Optional;
 
 import co.mjc.capstoneasap.dto.Member;
+import co.mjc.capstoneasap.dto.NoteData;
 import co.mjc.capstoneasap.dto.PdfData;
 import co.mjc.capstoneasap.dto.Schedule;
 import co.mjc.capstoneasap.dto.ScheduleEnum;
@@ -33,16 +34,42 @@ public class MemoryMemberRepository implements MemberRepository {
         ArrayList<Schedule> arrayList = new ArrayList();
         // default ID -> 로그인 기능 체크 Test로 만들어서 사용하지 않았음
         Member member = new Member();
+        Schedule schedule = new Schedule();
+        ArrayList<String> filePaths = new ArrayList<>();
+        ArrayList<PdfData> pdfDataArrayList = new ArrayList<>();
+        ArrayList<NoteData> noteDataArrayList = new ArrayList<>();
         member.setMemId("123");
         member.setMemMail("123@123.com");
         member.setMemPw("123");
-        Schedule schedule = new Schedule();
         schedule.setDayOTW(ScheduleEnum.THURSDAY);
         schedule.setLecName("자바기술캡스톤디자인");
         // list도 default로 만들어서 줬음
         member.setScheduleArrayList(arrayList);
+        member.getScheduleArrayList().add(schedule);
+        member.setScheduleArrayList(arrayList);
+        member.setFilePaths(filePaths);
+        member.setPdfDataArrayList(pdfDataArrayList);
+        member.setNoteDataArrayList(noteDataArrayList);
+        dbMap.put(member.getMemId(), member);
+    }
+
+    @Override
+    public void set123Member() {
+        ArrayList<Schedule> arrayList = new ArrayList();
+        // default ID -> 로그인 기능 체크 Test로 만들어서 사용하지 않았음
+        Member member = new Member();
+        Schedule schedule = new Schedule();
         ArrayList<String> filePaths = new ArrayList<>();
         ArrayList<PdfData> pdfDataArrayList = new ArrayList<>();
+        ArrayList<NoteData> noteDataArrayList = new ArrayList<>();
+        member.setMemId("123");
+        member.setMemMail("123@123.com");
+        member.setMemPw("123");
+        schedule.setDayOTW(ScheduleEnum.THURSDAY);
+        schedule.setLecName("자바기술캡스톤디자인");
+        // list도 default로 만들어서 줬음
+        member.setNoteDataArrayList(noteDataArrayList);
+        member.setScheduleArrayList(arrayList);
         member.getScheduleArrayList().add(schedule);
         member.setScheduleArrayList(arrayList);
         member.setFilePaths(filePaths);

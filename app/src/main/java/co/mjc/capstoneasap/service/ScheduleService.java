@@ -5,22 +5,16 @@ import android.content.Context;
 import android.os.Build;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.PopupMenu;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
 
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.Optional;
 
-import co.mjc.capstoneasap.LsMainActivity;
 import co.mjc.capstoneasap.R;
 import co.mjc.capstoneasap.adapter.ScheduleExpandableAdapter;
 import co.mjc.capstoneasap.dto.Member;
@@ -97,7 +91,7 @@ public class ScheduleService {
         TextView selectDate;
         // schedule 을 만드는 Dialog 생성
         Dialog dialog = new Dialog(context);
-        dialog.setContentView(R.layout.createschedule);
+        dialog.setContentView(R.layout.create_schedule);
         dialog.setTitle("시간표 추가");
         // Button 객체 생성
         Button addSchedule = dialog.findViewById(R.id.addSchedule);
