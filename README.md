@@ -26,3 +26,9 @@
 # https://www.flaticon.com/authors/freepik
 # source : backIcon
 # https://www.flaticon.com/authors/freepik
+# source : eraserIcon
+# https://www.flaticon.com/authors/iconjam
+# source : pencilIcon
+# https://www.flaticon.com/authors/freepik
+# source : TextIcon
+# https://www.flaticon.com/authors/those-icons
