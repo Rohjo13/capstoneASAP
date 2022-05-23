@@ -22,3 +22,7 @@
 # https://www.flaticon.com/authors/freepik
 # source : font
 # https://hangeul.naver.com/font
+# source : forwardIcon
+# https://www.flaticon.com/authors/freepik
+# source : backIcon
+# https://www.flaticon.com/authors/freepik
