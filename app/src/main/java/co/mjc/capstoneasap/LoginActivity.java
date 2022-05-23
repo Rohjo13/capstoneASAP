@@ -1,6 +1,6 @@
 package co.mjc.capstoneasap;
 
-import static co.mjc.capstoneasap.LsMainActivity.LogTAG;
+import static co.mjc.capstoneasap.LoginSuccessActivity.LogTAG;
 
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
@@ -9,25 +9,18 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.util.Log;
-import android.view.Menu;
 import android.widget.Button;
 import android.widget.EditText;
-
-import java.util.Optional;
 
 import co.mjc.capstoneasap.dto.Member;
 import co.mjc.capstoneasap.repository.MemberRepository;
 import co.mjc.capstoneasap.repository.MemoryMemberRepository;
-import co.mjc.capstoneasap.repository.MemoryScheduleRepository;
-import co.mjc.capstoneasap.repository.ScheduleRepository;
 import co.mjc.capstoneasap.service.MemberService;
-import co.mjc.capstoneasap.service.ScheduleService;
 
 // 참고 ls_mainPage 는 loginSuccess
 // 참고 ns_mainPage 는 noneLogin
-public class MainActivity extends AppCompatActivity {
+public class LoginActivity extends AppCompatActivity {
 
     //
     EditText edtId;
@@ -40,7 +33,7 @@ public class MainActivity extends AppCompatActivity {
     static MemberService memberService;
 
     // 생성자로 DI 주입 Bean 역할
-    public MainActivity() {
+    public LoginActivity() {
         Log.d(LogTAG,"MainActivity Constructor");
 
         // 없으면 만든다.
@@ -82,7 +75,7 @@ public class MainActivity extends AppCompatActivity {
                         Log.d(LogTAG,"MainActivity onCreate memberSchedule Size : " + member.getScheduleArrayList().size());
                         // 로그인 성공 시, 화면 전환, 화면 전환하는 클래스는 Intent
                         // 새로운 Intent 를 생성하는데, LsMainActivity 로 인스턴스 생성
-                        Intent intent = new Intent(this, LsMainActivity.class);
+                        Intent intent = new Intent(this, LoginSuccessActivity.class);
 
                         // 로그인 정보 넘겨주기
                         intent.putExtra("loginAccess", member);

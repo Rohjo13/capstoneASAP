@@ -50,7 +50,7 @@ import co.mjc.capstoneasap.service.MemberService;
 import co.mjc.capstoneasap.service.ScheduleService;
 
 
-public class LsMainActivity extends AppCompatActivity {
+public class LoginSuccessActivity extends AppCompatActivity {
 
     // 카메라 기능에 사용할 것
     static final int REQUEST_TAKE_PHOTO = 1;
@@ -92,15 +92,15 @@ public class LsMainActivity extends AppCompatActivity {
     CameraService cameraService;
 
     // 생성자 주입
-    public LsMainActivity() {
+    public LoginSuccessActivity() {
         Log.d(LogTAG, "LsMainAc Constructor");
         handlerThread = new HandlerThread(this);
 
         scheduleRepository = new MemoryScheduleRepository();
         scheduleService = new ScheduleService(scheduleRepository);
         cameraService = new CameraService();
-        memberRepository = MainActivity.memberRepository;
-        memberService = MainActivity.memberService;
+        memberRepository = LoginActivity.memberRepository;
+        memberService = LoginActivity.memberService;
     }
 
 
@@ -278,7 +278,7 @@ public class LsMainActivity extends AppCompatActivity {
 //                아직 권한 요청 안하면
             else {
                 Log.d(LogTAG, "카메라 권한 요청");
-                ActivityCompat.requestPermissions(LsMainActivity.this, new String[]{
+                ActivityCompat.requestPermissions(LoginSuccessActivity.this, new String[]{
                         Manifest.permission.CAMERA,
                         Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
             }
@@ -367,7 +367,7 @@ public class LsMainActivity extends AppCompatActivity {
 
     // 초기화면 로그아웃
     public void logout() {
-        Intent intent = new Intent(this, MainActivity.class);
+        Intent intent = new Intent(this, LoginActivity.class);
         // 로그인한 멤버는 이제 없음
         intent.putExtra("data", loginMember);
         // 다시 로그인 화면으로 변환

@@ -38,7 +38,7 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteViewHolder> {
         holder.txtName.setText(noteDataList.get(position).getNoteName());
 //        holder. 사진도 넣어야 됌
         holder.txtName.setSelected(true);
-        holder.cardView.setOnClickListener(view -> listener.onNoteSelected());
+        holder.cardView.setOnClickListener(view -> listener.onNoteSelected(noteDataList.get(position).getNoteName()));
     }
 
     @Override

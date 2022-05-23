@@ -6,8 +6,6 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
-import co.mjc.capstoneasap.LsMainActivity;
-
 @Deprecated
 public class HandlerThread implements Thread.UncaughtExceptionHandler {
 

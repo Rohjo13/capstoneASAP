@@ -70,7 +70,7 @@ public class PdfFolderActivity extends AppCompatActivity
         pdfActivate();
         // 돌아가기 누르면 다시 원래 화면으로 전환
         return_lsMain.setOnClickListener(view -> startActivity(new Intent(getApplicationContext(),
-                LsMainActivity.class).putExtra("loginAccess", loginMember)));
+                LoginSuccessActivity.class).putExtra("loginAccess", loginMember)));
 
         // pdf 임포트한다.
         importPdf.setOnClickListener(view -> {

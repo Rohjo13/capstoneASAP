@@ -7,11 +7,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.List;
@@ -82,7 +80,7 @@ public class NoteFolderActivity extends AppCompatActivity implements OnNoteSelec
 
         // LsMain으로 리턴
         note_return_lsmain.setOnClickListener(view -> startActivity(new Intent(getApplicationContext(),
-                LsMainActivity.class).putExtra("loginAccess", loginMember)));
+                LoginSuccessActivity.class).putExtra("loginAccess", loginMember)));
 
     }
 
@@ -99,7 +97,8 @@ public class NoteFolderActivity extends AppCompatActivity implements OnNoteSelec
     }
 
     @Override
-    public void onNoteSelected() {
-        Toast.makeText(getApplicationContext(), "구현하지 않았음", Toast.LENGTH_SHORT).show();
+    public void onNoteSelected(String noteName) {
+        startActivity(new Intent(getApplicationContext(),
+                NoteActivity.class).putExtra("loginAccess",loginMember).putExtra("noteName",noteName));
     }
 }

@@ -4,20 +4,14 @@ import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager2.widget.ViewPager2;
 
-import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.Color;
 import android.graphics.ImageDecoder;
-import android.graphics.drawable.AnimationDrawable;
-import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
-import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.TextView;
 
 import java.io.File;
 import java.io.IOException;
@@ -73,7 +67,7 @@ public class CameraFolderActivity extends AppCompatActivity {
 //        returnImageView.setColorFilter(Color.parseColor("#ffffff"));
         returnImageView.setOnClickListener(view -> {
             Intent returnIntent = new Intent(getApplicationContext(),
-                    LsMainActivity.class);
+                    LoginSuccessActivity.class);
             returnIntent.putExtra("loginAccess", loginMember);
             startActivity(returnIntent);
         });

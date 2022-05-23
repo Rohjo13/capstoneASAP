@@ -4,18 +4,14 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.widget.EditText;
-import android.widget.ImageView;
 
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
 
-import co.mjc.capstoneasap.MainActivity;
+import co.mjc.capstoneasap.LoginActivity;
 import co.mjc.capstoneasap.dto.Member;
-import co.mjc.capstoneasap.dto.Schedule;
 import co.mjc.capstoneasap.repository.MemberRepository;
 
 
@@ -55,7 +51,7 @@ public class MemberService extends AppCompatActivity {
     // 현재 안씀
     @Deprecated
     public Member logout(Context context,Member loginMember) {
-        Intent intent = new Intent(context, MainActivity.class);
+        Intent intent = new Intent(context, LoginActivity.class);
         // 로그인한 멤버는 이제 없음
 //        loginMember = null;
         // 다시 로그인 화면으로 변환
