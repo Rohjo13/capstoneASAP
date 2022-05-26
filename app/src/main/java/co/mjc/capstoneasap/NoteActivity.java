@@ -107,7 +107,8 @@ public class NoteActivity extends AppCompatActivity {
         eraser.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View view, MotionEvent motionEvent) {
-                service.getmPaint().setColor(Color.WHITE);
+                // 배경색으로 필기를 지운다.
+                service.getmPaint().setColor(Color.parseColor("#FFFFFFFF"));
                 // 굵기
                 service.getmPaint().setStrokeWidth(25);
                 return false;
