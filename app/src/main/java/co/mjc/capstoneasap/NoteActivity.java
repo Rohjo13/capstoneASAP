@@ -115,6 +115,22 @@ public class NoteActivity extends AppCompatActivity {
             }
         });
 
+        //이전
+        backRecord.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                service.onClickUndo();
+            }
+        });
+
+        //복원
+        forwardRecord.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                service.onClickRedo();
+            }
+        });
+
         // 텍스트 적을 수 있게 해준다.
         // 아직 구현 안했음
         textFunc.setOnClickListener(new View.OnClickListener() {
