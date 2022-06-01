@@ -24,9 +24,7 @@ public class DrawingService extends View {
     private ArrayList<Path> paths = new ArrayList<Path>();
     private ArrayList<Path> undonePaths = new ArrayList<Path>();
 
-    public Stack<Bitmap> getBeforeForwardStack() {
-        return beforeForwardStack;
-    }
+
 
     public Bitmap getmBitmap() {
         return mBitmap;
@@ -67,21 +65,14 @@ public class DrawingService extends View {
     @Override
     protected void onDraw(Canvas canvas) {
         Log.i(TAG, "onDraw");
-
         for (Path p : paths) {
             canvas.drawPath(p, mPaint);
         }
         canvas.drawPath(mPath,mPaint);
-
-        //canvas.drawBitmap(mBitmap, 0, 0, null);
-        //지금까지 그려진 내용
-        //canvas.drawPath(mPath, mPaint); //현재 그리고 있는 내용
-        // 여기다가 넣을게 stack 구현 부분
     }
 
     private float mX, mY;
     public static final float TOUCH_TOLERANCE = 4;
-
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
@@ -92,9 +83,6 @@ public class DrawingService extends View {
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN: // 처음 눌렸을 때
                 Log.d(TAG,"MotionEvent.ACTION_DOWN");
-                // 경로 초기화
-                //mPath.reset();
-                //mPath.moveTo(x, y);
                 undonePaths.clear();
                 mPath.reset();
                 mPath.moveTo(x, y);
@@ -104,7 +92,6 @@ public class DrawingService extends View {
                 break;
             case MotionEvent.ACTION_MOVE: // 누르고 움직였을 때
                 Log.d(TAG,"MotionEvent.ACTION_MOVE");
-                //mPath.lineTo(x, y);
                 float dx = Math.abs(x - mX);
                 float dy = Math.abs(y - mY);
                 if (dx >= TOUCH_TOLERANCE || dy >= TOUCH_TOLERANCE) {
@@ -116,11 +103,6 @@ public class DrawingService extends View {
                 break;
             case MotionEvent.ACTION_UP: // 누른 것을 떼면
                 Log.d(TAG,"MotionEvent.ACTION_UP");
-                //mPath.lineTo(x, y); // 현재까지 그린 경로, 그리고 어떤 색상의
-                // 페인트인지, 그걸 Canvas 에 넘긴다음에
-                //mCanvas.drawPath(mPath, mPaint); //mBitmap 에 기록한다.
-                // 여기다가 넣을게 Stack 구현 부분
-                //mPath.reset();
                 mPath.lineTo(mX,mY);
                 mCanvas.drawPath(mPath, mPaint);
                 paths.add(mPath);
@@ -128,7 +110,6 @@ public class DrawingService extends View {
                 invalidate();
                 break;
         }
-        //this.invalidate(); // 화면을 갱신
         return true;
     }
     public void onClickUndo () {
